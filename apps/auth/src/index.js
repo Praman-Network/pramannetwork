@@ -18,10 +18,11 @@ app.use(cors());
 app.use(express.json());
 app.use(sandboxRateLimiter); // Standard global rate limiter
 
-const supabase = createClient(
-  process.env.SUPABASE_URL, 
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const supabaseUrl = process.env.SUPABASE_URL || 'https://tkmduvvaygyucegqlhlq.supabase.co';
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || 'placeholder-key';
+
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
 // Base Health Check endpoint
 app.get("/", (req, res) => {
   res.send("Praman Network Authentication Gateway. Status: Operational.");
@@ -84,6 +85,12 @@ app.post("/api/v1/verify-zk", verifyApiKey, async (req, res) => {
   }
 });
 
-app.listen(5050, () => {
-  console.log(`Auth Server is running on port 5050`);
-});
+// Export app for serverless function platforms like Vercel
+export default app;
+
+// Listen only when running locally, not in serverless environments
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  app.listen(5050, () => {
+    console.log(`Auth Server is running on port 5050`);
+  });
+}
