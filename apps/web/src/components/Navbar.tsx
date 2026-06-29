@@ -1,0 +1,222 @@
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Wallet, Menu, X, ArrowUpRight, Cpu } from 'lucide-react';
+
+interface NavbarProps {
+  walletAddress?: string | null;
+  onConnectWallet?: () => void;
+  isConnecting?: boolean;
+}
+
+export default function Navbar({ walletAddress, onConnectWallet, isConnecting }: NavbarProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  const location = useLocation();
+  const isDashboard = location.pathname === '/dashboard';
+
+  const formatAddress = (addr: string) => {
+    return `${addr.substring(0, 6)}...${addr.substring(addr.length - 4)}`;
+  };
+
+  // Scroll detection to highlight navbar on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Scrolled past 20px - activate glassmorphism highlight
+      if (currentScrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <motion.header
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-[#0B0E14]/90 backdrop-blur-lg border-b border-[#00F0FF]/20 shadow-[0_4px_30px_rgba(0,0,0,0.6),0_0_20px_rgba(0,240,255,0.08)]' 
+          : 'bg-[#0B0E14]/10 backdrop-blur-[2px] border-b border-transparent'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          
+          {/* Logo Section */}
+          <Link to="/" className="flex items-center space-x-3 group relative">
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#00F0FF] to-purple-600 rounded-lg blur opacity-30 group-hover:opacity-70 transition duration-500" />
+              <div className="relative p-1.5 bg-[#0B0E14] border border-gray-800 rounded-lg flex items-center justify-center group-hover:border-[#00F0FF]/30 transition-colors">
+                <img src="/logo.png" alt="Praman Network Logo" className="h-7 w-7 object-contain filter drop-shadow-[0_0_8px_rgba(0,240,255,0.3)] group-hover:rotate-6 transition-transform duration-300" />
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <span className="font-display font-bold text-lg leading-tight tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-[#00F0FF]">
+                PRAMAN
+              </span>
+              <span className="text-[10px] tracking-[0.25em] text-[#00F0FF] font-medium uppercase font-display">
+                Network
+              </span>
+            </div>
+          </Link>
+
+          {/* Navigation Links */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <Link
+              to="/"
+              className={`text-sm font-medium transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan relative py-1 ${
+                location.pathname === '/' ? 'text-[#00F0FF] text-glow-cyan' : 'text-slate-300'
+              }`}
+            >
+              Protocol
+              {location.pathname === '/' && (
+                <motion.div
+                  layoutId="nav-underline"
+                  className="absolute bottom-0 left-0 w-full h-[2px] bg-[#00F0FF] shadow-[0_0_8px_#00F0FF]"
+                />
+              )}
+            </Link>
+            
+            <a
+              href="#features"
+              className="text-sm font-medium text-slate-300 transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan"
+            >
+              Verify Stack
+            </a>
+
+            <Link
+              to="/dashboard"
+              className={`text-sm font-medium transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan flex items-center space-x-1 relative py-1 ${
+                isDashboard ? 'text-[#00F0FF] text-glow-cyan' : 'text-slate-300'
+              }`}
+            >
+              <span>Developer API</span>
+              <Cpu className="h-3.5 w-3.5" />
+              {isDashboard && (
+                <motion.div
+                  layoutId="nav-underline"
+                  className="absolute bottom-0 left-0 w-full h-[2px] bg-[#00F0FF] shadow-[0_0_8px_#00F0FF]"
+                />
+              )}
+            </Link>
+
+            <a
+              href="https://docs.praman.network/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm font-medium text-slate-400 transition-all duration-300 hover:text-white flex items-center space-x-0.5"
+            >
+              <span>Docs</span>
+              <ArrowUpRight className="h-3 w-3" />
+            </a>
+          </nav>
+
+          {/* Connect Wallet / Console CTAs */}
+          <div className="hidden md:flex items-center space-x-4">
+            {onConnectWallet && (
+              <motion.button
+                whileHover={{ 
+                  scale: 1.02,
+                  boxShadow: '0 0 20px rgba(0, 240, 255, 0.4)'
+                }}
+                whileTap={{ scale: 0.98 }}
+                onClick={onConnectWallet}
+                disabled={isConnecting}
+                className={`flex items-center space-x-2.5 px-4 py-2 rounded-lg font-medium text-xs tracking-wider uppercase border transition-all duration-300 font-display ${
+                  walletAddress
+                    ? 'bg-[#00F0FF]/15 text-[#00F0FF] border-[#00F0FF]/40 shadow-[0_0_15px_rgba(0,240,255,0.15)]'
+                    : 'bg-white/5 border-gray-800 text-slate-200 hover:border-[#00F0FF]/50 hover:text-[#00F0FF]'
+                }`}
+              >
+                <Wallet className={`h-4 w-4 ${walletAddress ? 'animate-pulse' : ''}`} />
+                <span>
+                  {isConnecting
+                    ? 'Connecting...'
+                    : walletAddress
+                    ? formatAddress(walletAddress)
+                    : 'Connect Wallet'}
+                </span>
+              </motion.button>
+            )}
+
+            {!onConnectWallet && (
+              <Link to="/dashboard">
+                <motion.button
+                  whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(0, 240, 255, 0.5)' }}
+                  whileTap={{ scale: 0.98 }}
+                  className="bg-[#00F0FF] text-[#0B0E14] px-5 py-2.5 rounded-lg font-bold text-xs tracking-wider uppercase flex items-center space-x-2 font-display transition-all duration-300"
+                >
+                  <span>Console</span>
+                  <ArrowUpRight className="h-4 w-4" />
+                </motion.button>
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile Menu Icon */}
+          <div className="flex md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 text-slate-400 hover:text-white transition-colors"
+            >
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Drawer Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden border-t border-gray-900 bg-[#0B0E14]/95 backdrop-blur-md absolute left-0 w-full"
+          >
+            <div className="px-4 pt-2 pb-6 space-y-4">
+              <Link
+                to="/"
+                onClick={() => setIsOpen(false)}
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-300 hover:text-[#00F0FF] uppercase"
+              >
+                Protocol
+              </Link>
+              <a
+                href="#features"
+                onClick={() => setIsOpen(false)}
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-300 hover:text-white uppercase"
+              >
+                Verify Stack
+              </a>
+              <Link
+                to="/dashboard"
+                onClick={() => setIsOpen(false)}
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-300 hover:text-[#00F0FF] uppercase"
+              >
+                Developer API
+              </Link>
+              <a
+                href="https://github.com"
+                target="_blank"
+                rel="noreferrer"
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-400 hover:text-white uppercase"
+              >
+                Docs
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
+  );
+}

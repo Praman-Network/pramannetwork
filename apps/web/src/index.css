@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: oklch(0.145 0 0); /* Absolute deep space black (zinc-950) */
+    --foreground: oklch(0.985 0 0);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --radius: 0.625rem;
+  }
+  body {
+    @apply bg-[#09090b] text-foreground;
+    background-attachment: fixed;
+  }
+}
+
+/* Custom glow utility classes */
+.text-glow-cyan {
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.4), 0 0 20px rgba(0, 240, 255, 0.2);
+}
+
+.text-glow-cyan-strong {
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.6), 0 0 30px rgba(0, 240, 255, 0.3);
+}
+
+/* Scrollbar customizations */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1f2937;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00f0ff;
+  box-shadow: 0 0 8px #00f0ff;
+}
+
+/* Extra premium glowing card glassmorphism effect */
+.glass-panel {
+  @apply bg-zinc-950/50 backdrop-blur-md border border-white/10;
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(0, 240, 255, 0.25);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .neon-glow {
+    @apply shadow-[0_0_15px_rgba(0,240,255,0.5)];
+  }
+  .bg-web3-grid {
+    background-size: 4.5rem 4.5rem;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    mask-image: radial-gradient(ellipse at 50% 40%, black 75%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 40%, black 75%, transparent 100%);
+  }
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.065;
+    pointer-events: none;
+    mix-blend-overlay: overlay;
+  }
+}
