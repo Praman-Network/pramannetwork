@@ -14,6 +14,10 @@ if (process.env.NODE_ENV !== 'production') {
 const app = express();
 app.set('trust proxy', 1);
 
+// Parse JSON and URL-encoded bodies immediately
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const allowedOrigins = [
   'https://www.praman.network', 
   'https://praman.network'
@@ -31,10 +35,9 @@ const corsOptions = {
   credentials: true
 };
 
-// Apply Global Middlewares
+// Apply remaining global middleware (CORS & Rate limiting)
 app.use(cors(corsOptions));
-app.use(express.json());
-app.use(sandboxRateLimiter); // Standard global rate limiter
+app.use(sandboxRateLimiter); // Applied after body parsers
 
 const supabaseUrl = process.env.SUPABASE_URL || 'https://tkmduvvaygyucegqlhlq.supabase.co';
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || 'placeholder-key';

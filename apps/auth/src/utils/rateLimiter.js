@@ -6,6 +6,7 @@ export const sandboxRateLimiter = rateLimit({
   max: 30, // Limit each IP to 30 requests per windowMs
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  validate: { trustProxy: false },
   message: {
     success: false,
     error_code: "RATE_LIMIT_EXCEEDED",
