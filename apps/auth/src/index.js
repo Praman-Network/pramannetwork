@@ -7,14 +7,33 @@ import { verifyApiKey } from "./middlewares/apiKeyAuth.js";
 import { sandboxRateLimiter } from "./utils/rateLimiter.js";
 import { createClient } from '@supabase/supabase-js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, "../.env") });
+if (!process.env.VERCEL) {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  dotenv.config({ path: path.resolve(__dirname, "../.env") });
+}
 
 const app = express();
 
+const allowedOrigins = [
+  'https://www.praman.network', 
+  'https://praman.network'
+];
+
+if (process.env.NODE_ENV !== 'production') {
+  allowedOrigins.push('http://localhost:5173');
+  allowedOrigins.push('http://localhost:3000');
+  allowedOrigins.push('http://localhost:3001');
+}
+
+const corsOptions = {
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  credentials: true
+};
+
 // Apply Global Middlewares
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(sandboxRateLimiter); // Standard global rate limiter
 
