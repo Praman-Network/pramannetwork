@@ -35,6 +35,16 @@
           "key": "Cross-Origin-Resource-Policy",
           "value": "same-origin"
         }
+      ],
+      "rewrites": [
+        {
+          "source": "/dashboard",
+          "destination": "/index.html"
+        },
+        {
+          "source": "/contact",
+          "destination": "/index.html"
+        }
       ]
     }
   ]
