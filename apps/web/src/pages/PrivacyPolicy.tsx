@@ -17,10 +17,10 @@ export default function PrivacyPolicy() {
           <div className="space-y-2 border-b border-white/10 pb-6">
             <span className="text-xs font-mono uppercase tracking-widest text-[#0DF2C9] font-bold">PRAMAN NETWORK</span>
             <h1 className="text-4xl font-display font-extrabold text-white tracking-tight">Privacy Policy</h1>
-            <p className="text-zinc-550 text-xs font-mono">Last Updated: June 30, 2026</p>
+            <p className="text-zinc-400 text-xs font-mono">Last Updated: June 30, 2026</p>
           </div>
 
-          <section className="space-y-4 text-zinc-350 text-sm leading-relaxed font-light font-sans">
+          <section className="space-y-4 text-zinc-400 text-sm leading-relaxed font-light font-sans">
             <p>
               At Praman Network, privacy is not a feature—it is our fundamental architecture. This policy details how our protocol operates, verifying biometric credentials without storing, exposing, or decrypting personal user identities.
             </p>

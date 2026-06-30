@@ -54,10 +54,16 @@
       ]
     </script>
 
-    <!-- Google Fonts: Space Grotesk and Inter -->
+    <!-- Web Manifest -->
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Google Fonts: Space Grotesk and Inter (Non-blocking Asynchronous Loading) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    </noscript>
   </head>
   <body class="bg-darkbg text-slate-100 font-sans antialiased overflow-x-hidden selection:bg-neoncyan/30 selection:text-white">
     <div id="root"></div>

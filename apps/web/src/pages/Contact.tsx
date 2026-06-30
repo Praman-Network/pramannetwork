@@ -162,7 +162,7 @@ export default function Contact() {
           >
             <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-white/5 bg-[#0B0E14]/80 backdrop-blur-md">
               <Sparkles className="h-3.5 w-3.5 text-[#00F0FF] animate-pulse" />
-              <span className="text-[10px] tracking-[0.15em] uppercase font-bold text-slate-350 font-mono">
+              <span className="text-[10px] tracking-[0.15em] uppercase font-bold text-slate-400 font-mono">
                 Support & Relations
               </span>
             </div>
@@ -201,7 +201,7 @@ export default function Contact() {
                     <Mail className="h-5 w-5 text-[#00F0FF]" />
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase font-mono tracking-wider text-zinc-500 font-bold">Email Support</p>
+                    <p className="text-[10px] uppercase font-mono tracking-wider text-zinc-400 font-bold">Email Support</p>
                     <a 
                       href="mailto:networkpraman@gmail.com" 
                       className="text-sm font-medium text-slate-200 hover:text-[#00F0FF] transition-colors font-mono"
@@ -216,7 +216,7 @@ export default function Contact() {
                     <Clock className="h-5 w-5 text-[#00F0FF]" />
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase font-mono tracking-wider text-zinc-500 font-bold">Response Time</p>
+                    <p className="text-[10px] uppercase font-mono tracking-wider text-zinc-400 font-bold">Response Time</p>
                     <p className="text-sm font-medium text-slate-300 font-sans">
                       Under 24 hours (Monday - Friday)
                     </p>
@@ -246,7 +246,7 @@ export default function Contact() {
                     <Twitter className="h-5 w-5 text-sky-400" />
                     <span className="text-sm font-medium text-slate-200">Twitter / X</span>
                   </div>
-                  <ArrowUpRight className="h-4 w-4 text-zinc-500" />
+                  <ArrowUpRight className="h-4 w-4 text-zinc-400" />
                 </a>
 
                 <a 
@@ -259,7 +259,7 @@ export default function Contact() {
                     <Linkedin className="h-5 w-5 text-blue-500" />
                     <span className="text-sm font-medium text-slate-200">LinkedIn</span>
                   </div>
-                  <ArrowUpRight className="h-4 w-4 text-zinc-500" />
+                  <ArrowUpRight className="h-4 w-4 text-zinc-400" />
                 </a>
 
                 <a 
@@ -274,7 +274,7 @@ export default function Contact() {
                   </div>
                   <div className="flex items-center gap-1.5 text-xs text-zinc-400">
                     <span>Explore Org</span>
-                    <ArrowUpRight className="h-4 w-4 text-zinc-500" />
+                    <ArrowUpRight className="h-4 w-4 text-zinc-400" />
                   </div>
                 </a>
               </div>
@@ -289,7 +289,7 @@ export default function Contact() {
                 <Sparkles className="h-28 w-28 text-[#0DF2C9]" />
               </div>
               <h4 className="text-xs uppercase tracking-wider font-bold text-[#0DF2C9] mb-1 font-mono">Cryptographic Proof</h4>
-              <p className="text-xs text-slate-350 leading-relaxed font-light">
+              <p className="text-xs text-slate-400 leading-relaxed font-light">
                 Praman Network operates under zero trust principles. Contact info is fully sandbox-secure. If you prefer to declare bugs or request updates publically, use our verified GitHub Repository tracker.
               </p>
             </motion.div>
@@ -330,7 +330,7 @@ export default function Contact() {
                     <div className="pt-4">
                       <button
                         onClick={() => setSubmitStatus('idle')}
-                        className="px-6 py-2.5 rounded-lg border border-white/10 text-xs uppercase tracking-wider font-mono font-bold hover:bg-white/5 transition-all text-slate-350"
+                        className="px-6 py-2.5 rounded-lg border border-white/10 text-xs uppercase tracking-wider font-mono font-bold hover:bg-white/5 transition-all text-slate-400"
                       >
                         Send Another Message
                       </button>
@@ -464,7 +464,7 @@ export default function Contact() {
                         onChange={handleInputChange}
                         required
                         placeholder="Let us know what this is about..."
-                        className="w-full bg-black/45 border border-white/5 hover:border-white/10 focus:border-[#00F0FF]/40 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-650 focus:outline-none focus:ring-1 focus:ring-[#00F0FF]/20 transition-all font-sans"
+                        className="w-full bg-black/45 border border-white/5 hover:border-white/10 focus:border-[#00F0FF]/40 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-[#00F0FF]/20 transition-all font-sans"
                       />
                     </div>
 
@@ -481,7 +481,7 @@ export default function Contact() {
                         onChange={handleInputChange}
                         required
                         placeholder="Write your details here..."
-                        className="w-full bg-black/45 border border-white/5 hover:border-white/10 focus:border-[#00F0FF]/40 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-650 focus:outline-none focus:ring-1 focus:ring-[#00F0FF]/20 transition-all font-sans resize-none font-sans"
+                        className="w-full bg-black/45 border border-white/5 hover:border-white/10 focus:border-[#00F0FF]/40 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-[#00F0FF]/20 transition-all font-sans resize-none font-sans"
                       />
                     </div>
 

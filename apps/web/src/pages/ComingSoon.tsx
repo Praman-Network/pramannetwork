@@ -54,7 +54,7 @@ export default function ComingSoon() {
               <ShieldCheck className="h-5 w-5" />
             </div>
             <h3 className="text-sm font-bold text-white uppercase font-mono tracking-wider">Sybil Resistance</h3>
-            <p className="text-zinc-500 text-xs font-light">
+            <p className="text-zinc-400 text-xs font-light">
               Biometric face auth ensures one identity per developer profile, completely blocking bot accounts.
             </p>
           </div>
@@ -64,7 +64,7 @@ export default function ComingSoon() {
               <ShieldCheck className="h-5 w-5" />
             </div>
             <h3 className="text-sm font-bold text-white uppercase font-mono tracking-wider">ZK Credentials</h3>
-            <p className="text-zinc-500 text-xs font-light">
+            <p className="text-zinc-400 text-xs font-light">
               Prove work history and coding metrics mathematically without revealing underlying personal client contracts.
             </p>
           </div>
@@ -74,7 +74,7 @@ export default function ComingSoon() {
               <ShieldCheck className="h-5 w-5" />
             </div>
             <h3 className="text-sm font-bold text-white uppercase font-mono tracking-wider">Direct Trust Pools</h3>
-            <p className="text-zinc-500 text-xs font-light">
+            <p className="text-zinc-400 text-xs font-light">
               Hire and payout instantly via smart contracts backed by cryptographic consensus parameters.
             </p>
           </div>
@@ -94,7 +94,7 @@ export default function ComingSoon() {
             </button>
           </Link>
 
-          <div className="flex items-center space-x-2 bg-black/40 border border-white/5 rounded-xl px-4 py-2 text-xs font-mono text-zinc-500">
+          <div className="flex items-center space-x-2 bg-black/40 border border-white/5 rounded-xl px-4 py-2 text-xs font-mono text-zinc-400">
             <span className="w-1.5 h-1.5 rounded-full bg-[#0DF2C9] animate-pulse" />
             <span>Launch Status: Alpha Coming Soon</span>
           </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   KeyRound, 
@@ -21,19 +21,16 @@ import {
   BarChart3,
   ExternalLink
 } from 'lucide-react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  Tooltip, 
-  ResponsiveContainer,
-  AreaChart,
-  Area
-} from 'recharts';
 import Navbar from '../components/Navbar.tsx';
-import { ethers } from 'ethers';
 import { supabase } from '../utils/supabaseClient.ts';
+
+// Dynamic imports for Recharts to split vendor chunks and load on-demand
+const DashboardAreaChart = lazy(() =>
+  import('../components/DashboardCharts.tsx').then((module) => ({ default: module.DashboardAreaChart }))
+);
+const DashboardBarChart = lazy(() =>
+  import('../components/DashboardCharts.tsx').then((module) => ({ default: module.DashboardBarChart }))
+);
 
 // API Key generation helper
 const generateApiKey = (): string => {
@@ -109,13 +106,17 @@ export default function Dashboard() {
     const checkConnection = async () => {
       if (window.ethereum) {
         try {
-          const provider = new ethers.BrowserProvider(window.ethereum);
-          const accounts = await provider.send('eth_accounts', []);
-          if (accounts.length > 0) {
-            const signer = await provider.getSigner();
-            const address = await signer.getAddress();
-            const balanceWei = await provider.getBalance(address);
-            const balance = `${parseFloat(ethers.formatEther(balanceWei)).toFixed(4)} ETH`;
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' }) as string[];
+          if (accounts && accounts.length > 0) {
+            const address = accounts[0];
+            const balanceWeiHex = await window.ethereum.request({
+              method: 'eth_getBalance',
+              params: [address, 'latest']
+            }) as string;
+            
+            const wei = BigInt(balanceWeiHex);
+            const balanceEth = (Number(wei / 100000000000000n) / 10000).toFixed(4);
+            const balance = `${balanceEth} ETH`;
             
             setWalletAddress(address);
             setWalletBalance(balance);
@@ -304,18 +305,23 @@ export default function Dashboard() {
     
     setIsConnecting(true);
     try {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
-      const signer = await provider.getSigner();
-      const address = await signer.getAddress();
-      
-      const balanceWei = await provider.getBalance(address);
-      const balance = `${parseFloat(ethers.formatEther(balanceWei)).toFixed(4)} ETH`;
-      
-      setWalletAddress(address);
-      setWalletBalance(balance);
-      fetchAppsAndKeys(address);
-      showToast("Wallet connected successfully!");
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) as string[];
+      if (accounts && accounts.length > 0) {
+        const address = accounts[0];
+        const balanceWeiHex = await window.ethereum.request({
+          method: 'eth_getBalance',
+          params: [address, 'latest']
+        }) as string;
+        
+        const wei = BigInt(balanceWeiHex);
+        const balanceEth = (Number(wei / 100000000000000n) / 10000).toFixed(4);
+        const balance = `${balanceEth} ETH`;
+        
+        setWalletAddress(address);
+        setWalletBalance(balance);
+        fetchAppsAndKeys(address);
+        showToast("Wallet connected successfully!");
+      }
     } catch (err) {
       console.error("Wallet connection failed:", err);
       showToast("Wallet connection failed.", "error");
@@ -918,22 +924,9 @@ export default function Dashboard() {
                       Create an application or check connection to verify logs.
                     </div>
                   ) : (
-                    <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={logsData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-                        <defs>
-                          <linearGradient id="colorVerify" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#00F0FF" stopOpacity={0.2}/>
-                            <stop offset="95%" stopColor="#00F0FF" stopOpacity={0}/>
-                          </linearGradient>
-                        </defs>
-                        <Tooltip 
-                          contentStyle={{ backgroundColor: '#090D16', borderColor: 'rgba(0, 240, 255, 0.2)', borderRadius: '12px', fontSize: '11px' }}
-                          labelClassName="text-slate-500 font-mono text-[9px]"
-                          itemStyle={{ color: '#00F0FF', fontWeight: 'bold' }}
-                        />
-                        <Area type="monotone" dataKey="verifications" stroke="#00F0FF" strokeWidth={1.5} fillOpacity={1} fill="url(#colorVerify)" />
-                      </AreaChart>
-                    </ResponsiveContainer>
+                    <Suspense fallback={<div className="w-full h-full bg-zinc-950/20 rounded-xl border border-zinc-900 animate-pulse" />}>
+                      <DashboardAreaChart data={logsData} />
+                    </Suspense>
                   )}
                 </div>
               </div>
@@ -1178,18 +1171,9 @@ export default function Dashboard() {
                       No logs recorded for this app
                     </div>
                   ) : (
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={logsData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                        <XAxis dataKey="day" stroke="#4b5563" fontSize={10} tickLine={false} axisLine={false} />
-                        <YAxis stroke="#4b5563" fontSize={10} tickLine={false} axisLine={false} />
-                        <Tooltip
-                          contentStyle={{ backgroundColor: '#090D16', borderColor: 'rgba(0, 240, 255, 0.2)', borderRadius: '12px', fontSize: '11px' }}
-                          labelClassName="text-slate-500 font-mono text-[9px]"
-                        />
-                        <Bar dataKey="verifications" fill="#00F0FF" radius={[4, 4, 0, 0]} />
-                        <Bar dataKey="failures" fill="#f43f5e" radius={[4, 4, 0, 0]} />
-                      </BarChart>
-                    </ResponsiveContainer>
+                    <Suspense fallback={<div className="w-full h-full bg-zinc-950/20 rounded-xl border border-zinc-900 animate-pulse" />}>
+                      <DashboardBarChart data={logsData} />
+                    </Suspense>
                   )}
                 </div>
               </div>

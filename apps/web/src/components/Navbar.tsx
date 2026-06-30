@@ -55,6 +55,8 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
             <img 
               src="/logo.png" 
               alt="Praman Network Logo" 
+              width="32"
+              height="32"
               className="h-8 w-8 object-contain mix-blend-screen transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 filter drop-shadow-[0_0_8px_rgba(13,242,201,0.4)]"
             />
             <div className="flex flex-col">
@@ -179,9 +181,11 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
           <div className="flex md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 text-slate-400 hover:text-white transition-colors"
+              aria-label="Toggle navigation menu"
+              aria-expanded={isOpen}
+              className="w-11 h-11 flex items-center justify-center text-slate-400 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0DF2C9] rounded-lg"
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isOpen ? <X className="h-6 w-6" aria-hidden="true" /> : <Menu className="h-6 w-6" aria-hidden="true" />}
             </button>
           </div>
         </div>
@@ -200,21 +204,21 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
               <Link
                 to="/"
                 onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-350 hover:text-[#0DF2C9] uppercase font-mono"
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-400 hover:text-[#0DF2C9] uppercase font-mono"
               >
                 Protocol
               </Link>
               <a
                 href="#features"
                 onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-350 hover:text-[#0DF2C9] uppercase font-mono"
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-400 hover:text-[#0DF2C9] uppercase font-mono"
               >
                 Verify Stack
               </a>
               <Link
                 to="/dashboard"
                 onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-355 hover:text-[#0DF2C9] uppercase font-mono"
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-400 hover:text-[#0DF2C9] uppercase font-mono"
               >
                 Developer API
               </Link>

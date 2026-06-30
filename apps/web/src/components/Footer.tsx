@@ -13,6 +13,8 @@ export default function Footer() {
               <img 
                 src="/logo.png" 
                 alt="Praman Network Logo" 
+                width="32"
+                height="32"
                 className="h-8 w-8 object-contain mix-blend-screen transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 filter drop-shadow-[0_0_8px_rgba(13,242,201,0.4)]"
               />
               <div className="flex flex-col">
@@ -111,7 +113,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Copyright details */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 font-mono gap-4">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-400 font-mono gap-4">
           <div>
             Praman Network &copy; {new Date().getFullYear()} All rights reserved.
           </div>

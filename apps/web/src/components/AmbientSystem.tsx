@@ -72,7 +72,7 @@ export default function AmbientSystem() {
   return (
     <div className="fixed inset-0 w-full h-full bg-[#030508] pointer-events-none z-0 overflow-hidden">
       {/* 1. Matrix digital line grid */}
-      <div className="absolute inset-0 bg-web3-grid opacity-30 animate-grid-flow" />
+      <div className="absolute top-[-5rem] left-[-5rem] w-[calc(100%+5rem)] h-[calc(100%+5rem)] bg-web3-grid opacity-30 animate-grid-flow" />
 
       {/* 2. Cryptographic matrix rain */}
       <canvas

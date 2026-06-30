@@ -181,7 +181,7 @@ export default function LandingPage() {
                 const StatIcon = stat.icon;
                 return (
                   <div key={idx} className="flex flex-col items-center md:items-start space-y-1.5">
-                    <div className="flex items-center space-x-2 text-zinc-500">
+                    <div className="flex items-center space-x-2 text-zinc-400">
                       <StatIcon className={`h-4 w-4 ${stat.color}`} />
                       <span className="text-[10px] uppercase font-mono tracking-wider font-semibold">{stat.label}</span>
                     </div>
@@ -196,7 +196,7 @@ export default function LandingPage() {
         {/* 1. Supported Ecosystem (Infinite Logo Ticker) */}
         <section className="relative w-full border-y border-white/5 bg-neutral-950/20 py-10 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <p className="text-center text-[10px] uppercase tracking-[0.25em] font-bold text-zinc-500 mb-6 font-mono">
+            <p className="text-center text-[10px] uppercase tracking-[0.25em] font-bold text-zinc-400 mb-6 font-mono">
               Natively integrated with the EVM Ecosystem
             </p>
             
@@ -225,7 +225,7 @@ export default function LandingPage() {
                   return (
                     <div 
                       key={index} 
-                      className="flex items-center space-x-3 text-zinc-500 hover:text-[#00F0FF] transition-all duration-300 group cursor-pointer"
+                      className="flex items-center space-x-3 text-zinc-400 hover:text-[#00F0FF] transition-all duration-300 group cursor-pointer"
                     >
                       <ChainIcon className="h-4.5 w-4.5 opacity-60 group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_#00F0FF] transition-all" />
                       <span className="text-xs font-mono font-semibold tracking-wider">{chain.name}</span>
@@ -296,7 +296,7 @@ export default function LandingPage() {
                       <div className="w-2.5 h-2.5 rounded-full bg-amber-500/80 hover:bg-amber-500 cursor-pointer" />
                       <div className="w-2.5 h-2.5 rounded-full bg-green-500/80 hover:bg-green-500 cursor-pointer" />
                     </div>
-                    <div className="text-[10px] text-zinc-500 font-mono">praman-auth-sample.ts</div>
+                    <div className="text-[10px] text-zinc-400 font-mono">praman-auth-sample.ts</div>
                     <div className="w-12" />
                   </div>
                   
@@ -310,7 +310,7 @@ export default function LandingPage() {
                         {'  '}livenessMode: <span className="text-emerald-400">'strict'</span>,<br />
                         {'  '}network: <span className="text-emerald-400">'polygon'</span><br />
                         {'}'});<br /><br />
-                        <span className="text-slate-500">// Triggers ZK-Proof generation in-browser</span><br />
+                        <span className="text-slate-400">// Triggers ZK-Proof generation in-browser</span><br />
                         <span className="text-purple-400">const</span> {'{'} jwt, userFaceHash {'}'} = <span className="text-purple-400">await</span> auth.<span className="text-blue-400">login</span>();
                       </code>
                     </pre>

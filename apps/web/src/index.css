@@ -101,6 +101,20 @@
     pointer-events: none;
     mix-blend-mode: overlay;
   }
+
+  /* Global WCAG AA Accessibility Contrast Fixes */
+  .text-slate-500 {
+    color: #94a3b8 !important;
+  }
+  .text-zinc-500 {
+    color: #a1a1aa !important;
+  }
+  .text-slate-600 {
+    color: #94a3b8 !important;
+  }
+  .text-zinc-600 {
+    color: #a1a1aa !important;
+  }
 }
 
 /* Custom premium keyframe animations */
@@ -124,15 +138,16 @@
 
 @keyframes grid-flow {
   0% {
-    background-position: 0% 0%;
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    background-position: 100% 100%;
+    transform: translate3d(-5rem, -5rem, 0);
   }
 }
 
 .animate-grid-flow {
-  animation: grid-flow 60s linear infinite;
+  animation: grid-flow 25s linear infinite;
+  will-change: transform;
 }
 
 @keyframes scanline {

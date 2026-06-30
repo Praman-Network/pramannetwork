@@ -17,10 +17,10 @@ export default function TermsOfUse() {
           <div className="space-y-2 border-b border-white/10 pb-6">
             <span className="text-xs font-mono uppercase tracking-widest text-[#0DF2C9] font-bold">PRAMAN NETWORK</span>
             <h1 className="text-4xl font-display font-extrabold text-white tracking-tight">Terms of Use</h1>
-            <p className="text-zinc-550 text-xs font-mono">Last Updated: June 30, 2026</p>
+            <p className="text-zinc-400 text-xs font-mono">Last Updated: June 30, 2026</p>
           </div>
 
-          <section className="space-y-4 text-zinc-350 text-sm leading-relaxed font-light font-sans">
+          <section className="space-y-4 text-zinc-400 text-sm leading-relaxed font-light font-sans">
             <p>
               Welcome to Praman Network. By utilizing our protocol, console dashboard, or developers' SDK, you agree to follow the terms below.
             </p>
@@ -38,7 +38,7 @@ export default function TermsOfUse() {
             </p>
 
             <h2 className="text-lg font-display font-bold text-white pt-4">3. Disclaimer of Liability ("AS-IS" Clause)</h2>
-            <p className="italic text-zinc-450">
+            <p className="italic text-zinc-400">
               The software, smart contracts, and proof circuits are provided "AS IS", without warranty of any kind, express or implied. 
               In no event shall Praman Network or the authors be liable for any claims, losses, or damages arising from contract failures, protocol bugs, or browser witness calculations.
             </p>
