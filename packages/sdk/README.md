@@ -43,13 +43,14 @@ npm install vite-plugin-node-polyfills --save-dev
 
 **2. Update `vite.config.ts` or `vite.config.js`:**
 ```javascript
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 export default defineConfig({
   plugins: [
     react(),
+    // Ye plugin global, Buffer, process sabko browser me available kar dega
     nodePolyfills({
       globals: {
         Buffer: true,
@@ -58,7 +59,15 @@ export default defineConfig({
       },
     }),
   ],
-});
+  optimizeDeps: {
+    include: ['@praman-network/sdk', '@lit-protocol/lit-node-client', 'tslib']
+  },
+  build: {
+    commonjsOptions: {
+      transformMixedEsModules: true
+    }
+  }
+})
 ```
 
 ---
