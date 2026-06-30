@@ -44,26 +44,24 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-[#0B0E14]/90 backdrop-blur-lg border-b border-[#00F0FF]/20 shadow-[0_4px_30px_rgba(0,0,0,0.6),0_0_20px_rgba(0,240,255,0.08)]' 
-          : 'bg-[#0B0E14]/10 backdrop-blur-[2px] border-b border-transparent'
+          ? 'bg-[#030508]/85 backdrop-blur-xl border-b border-[#0DF2C9]/15 shadow-[0_4px_30px_rgba(0,0,0,0.5),0_0_20px_rgba(13,242,201,0.04)]' 
+          : 'bg-transparent border-b border-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
-          {/* Logo Section */}
           <Link to="/" className="flex items-center space-x-3 group relative">
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#00F0FF] to-purple-600 rounded-lg blur opacity-30 group-hover:opacity-70 transition duration-500" />
-              <div className="relative p-1.5 bg-[#0B0E14] border border-gray-800 rounded-lg flex items-center justify-center group-hover:border-[#00F0FF]/30 transition-colors">
-                <img src="/logo.png" alt="Praman Network Logo" className="h-7 w-7 object-contain filter drop-shadow-[0_0_8px_rgba(0,240,255,0.3)] group-hover:rotate-6 transition-transform duration-300" />
-              </div>
-            </div>
+            <img 
+              src="/logo.png" 
+              alt="Praman Network Logo" 
+              className="h-8 w-8 object-contain mix-blend-screen transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 filter drop-shadow-[0_0_8px_rgba(13,242,201,0.4)]"
+            />
             <div className="flex flex-col">
-              <span className="font-display font-bold text-lg leading-tight tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-[#00F0FF]">
+              <span className="font-display font-bold text-lg leading-tight tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-[#0DF2C9]">
                 PRAMAN
               </span>
-              <span className="text-[10px] tracking-[0.25em] text-[#00F0FF] font-medium uppercase font-display">
+              <span className="text-[10px] tracking-[0.25em] text-[#0DF2C9] font-medium uppercase font-display">
                 Network
               </span>
             </div>
@@ -118,6 +116,21 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
               <span>Docs</span>
               <ArrowUpRight className="h-3 w-3" />
             </a>
+
+            <Link
+              to="/contact"
+              className={`text-sm font-medium transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan relative py-1 ${
+                location.pathname === '/contact' ? 'text-[#00F0FF] text-glow-cyan' : 'text-slate-300'
+              }`}
+            >
+              Contact
+              {location.pathname === '/contact' && (
+                <motion.div
+                  layoutId="nav-underline"
+                  className="absolute bottom-0 left-0 w-full h-[2px] bg-[#00F0FF] shadow-[0_0_8px_#00F0FF]"
+                />
+              )}
+            </Link>
           </nav>
 
           {/* Connect Wallet / Console CTAs */}
@@ -181,38 +194,54 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-gray-900 bg-[#0B0E14]/95 backdrop-blur-md absolute left-0 w-full"
+            className="md:hidden border-t border-white/5 bg-[#030508]/95 backdrop-blur-xl absolute left-0 w-full"
           >
-            <div className="px-4 pt-2 pb-6 space-y-4">
+            <div className="px-4 pt-4 pb-8 space-y-4">
               <Link
                 to="/"
                 onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-300 hover:text-[#00F0FF] uppercase"
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-350 hover:text-[#0DF2C9] uppercase font-mono"
               >
                 Protocol
               </Link>
               <a
                 href="#features"
                 onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-300 hover:text-white uppercase"
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-350 hover:text-[#0DF2C9] uppercase font-mono"
               >
                 Verify Stack
               </a>
               <Link
                 to="/dashboard"
                 onClick={() => setIsOpen(false)}
-                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-300 hover:text-[#00F0FF] uppercase"
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-355 hover:text-[#0DF2C9] uppercase font-mono"
               >
                 Developer API
               </Link>
               <a
-                href="https://github.com"
+                href="https://docs.praman.network/"
                 target="_blank"
                 rel="noreferrer"
-                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-400 hover:text-white uppercase"
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-400 hover:text-white uppercase font-mono"
               >
                 Docs
               </a>
+              
+              <Link
+                to="/contact"
+                onClick={() => setIsOpen(false)}
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-300 hover:text-[#0DF2C9] uppercase font-mono"
+              >
+                Contact
+              </Link>
+              
+              <div className="pt-4 border-t border-white/5">
+                <Link to="/dashboard" onClick={() => setIsOpen(false)}>
+                  <button className="w-full bg-[#0DF2C9] text-black py-3.5 rounded-xl font-extrabold text-xs uppercase tracking-wider font-mono shadow-[0_0_15px_rgba(13,242,201,0.2)]">
+                    Access Console
+                  </button>
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}
