@@ -7,10 +7,8 @@ import { verifyApiKey } from "./middlewares/apiKeyAuth.js";
 import { sandboxRateLimiter } from "./utils/rateLimiter.js";
 import { createClient } from '@supabase/supabase-js';
 
-if (!process.env.VERCEL) {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-  dotenv.config({ path: path.resolve(__dirname, "../.env") });
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config();
 }
 
 const app = express();
@@ -40,7 +38,23 @@ app.use(sandboxRateLimiter); // Standard global rate limiter
 const supabaseUrl = process.env.SUPABASE_URL || 'https://tkmduvvaygyucegqlhlq.supabase.co';
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_KEY || 'placeholder-key';
 
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+if (!process.env.SUPABASE_URL || (!process.env.SUPABASE_SERVICE_ROLE_KEY && !process.env.SUPABASE_SERVICE_KEY)) {
+  console.warn("WARNING: Supabase URL or Service Role Key is missing from environment variables.");
+}
+
+let supabase;
+try {
+  supabase = createClient(supabaseUrl, supabaseServiceKey);
+} catch (err) {
+  console.error("CRITICAL: Failed to initialize Supabase client globally:", err.message);
+  // Provide a safe fallback mock so the server doesn't crash on import
+  supabase = {
+    from: () => ({
+      insert: async () => ({ data: null, error: new Error("Supabase client is not initialized") }),
+      select: () => ({ eq: () => ({ single: async () => ({ data: null, error: new Error("Supabase client is not initialized") }) }) })
+    })
+  };
+}
 
 // Base Health Check endpoint
 app.get("/", (req, res) => {
@@ -54,28 +68,39 @@ app.post("/api/v1/verify-zk", verifyApiKey, async (req, res) => {
   const origin = req.headers.origin || 'unknown';
   const apiKey = req.headers['x-api-key'];
 
+  // Enhanced Vercel serverless debugging log
+  console.log("Incoming Request - Origin:", origin, "API Key Present:", !!apiKey);
+
   try {
     // 1. ZK Proof Verification Logic (Yahan tumhara snarkjs/contract logic aayega)
     const isVerified = true; // Simulating verification logic
 
     if (!isVerified) {
       // Log failed attempt
-      await supabase.from('verification_logs').insert({
-        app_id: apiKey,
-        status: 'failed',
-        error_code: 'ZK_VERIFICATION_FAILED',
-        origin: origin
-      });
+      try {
+        await supabase.from('verification_logs').insert({
+          app_id: apiKey,
+          status: 'failed',
+          error_code: 'ZK_VERIFICATION_FAILED',
+          origin: origin
+        });
+      } catch (logErr) {
+        console.error("Failed to insert verification log in database:", logErr.message);
+      }
       return res.status(403).json({ success: false, error: "ZK Proof verification failed" });
     }
 
     // 2. Success Log Entry
-    await supabase.from('verification_logs').insert({
-      app_id: apiKey,
-      status: 'success',
-      error_code: null,
-      origin: origin
-    });
+    try {
+      await supabase.from('verification_logs').insert({
+        app_id: apiKey,
+        status: 'success',
+        error_code: null,
+        origin: origin
+      });
+    } catch (logErr) {
+      console.error("Failed to insert success verification log in database:", logErr.message);
+    }
 
     // 3. Success Response
     res.status(200).json({
@@ -93,14 +118,23 @@ app.post("/api/v1/verify-zk", verifyApiKey, async (req, res) => {
     console.error("Verification Route Error:", error);
     
     // Log unexpected system errors
-    await supabase.from('verification_logs').insert({
-      app_id: apiKey,
-      status: 'failed',
-      error_code: 'SYSTEM_ERROR',
-      origin: origin
-    });
+    try {
+      await supabase.from('verification_logs').insert({
+        app_id: apiKey,
+        status: 'failed',
+        error_code: 'SYSTEM_ERROR',
+        origin: origin
+      });
+    } catch (logErr) {
+      console.error("Failed to insert system error log in database:", logErr.message);
+    }
 
-    res.status(500).json({ success: false, message: "Internal server error during verification" });
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      details: error.message,
+      stack: process.env.NODE_ENV !== 'production' ? error.stack : undefined
+    });
   }
 });
 
