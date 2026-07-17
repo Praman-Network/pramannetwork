@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO.tsx';
-import { 
-  ShieldCheck, 
-  Network, 
-  ArrowRight, 
-  Cpu, 
+import {
+  ShieldCheck,
+  Network,
+  ArrowRight,
+  Cpu,
   Briefcase,
   ChevronRight,
   Sparkles,
@@ -74,15 +74,15 @@ const { jwt, userFaceHash } = await auth.login();`;
   };
 
   // Duplicated log list for infinite ticker
-  const EVMChains = [
-    { name: "POLYGON", icon: Layers },
-    { name: "MANTLE NETWORK", icon: Cpu },
-    { name: "ALGORAND", icon: ShieldCheck },
-    { name: "ARBITRUM", icon: Network },
-    { name: "POLYGON", icon: Layers },
-    { name: "MANTLE NETWORK", icon: Cpu },
-    { name: "ALGORAND", icon: ShieldCheck },
-    { name: "ARBITRUM", icon: Network },
+const EVMChains = [
+    { name: "POLYGON", icon: Layers, color: "#8247E5" },
+    { name: "MANTLE NETWORK", icon: Cpu, color: "#40A6BF" },
+    { name: "ALGORAND", icon: ShieldCheck, color: "#FFFFFF" },
+    { name: "ARBITRUM", icon: Network, color: "#016BE5" },
+    { name: "POLYGON", icon: Layers, color: "#8247E5" },
+    { name: "MANTLE NETWORK", icon: Cpu, color: "#40A6BF" },
+    { name: "ALGORAND", icon: ShieldCheck, color: "#FFFFFF" },
+    { name: "ARBITRUM", icon: Network, color: "#016BE5" },
   ];
 
   const ecosystemApps = [
@@ -113,7 +113,7 @@ const { jwt, userFaceHash } = await auth.login();`;
 
   return (
     <main id="main-content" className="relative min-h-screen bg-transparent text-white overflow-hidden">
-      <SEO 
+      <SEO
         title="Replacing Trust with Proof"
         description="Praman Network is the decentralized protocol for Zero-Knowledge Authentication, Biometric Privacy, and Web3 Identity verification. Build and integrate zero-knowledge credentials seamlessly."
         jsonLd={[
@@ -141,7 +141,7 @@ const { jwt, userFaceHash } = await auth.login();`;
         {/* Hero Section */}
         <section className="relative pt-36 pb-20 md:pt-48 md:pb-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex items-center">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center w-full">
-            
+
             {/* Left Column Content */}
             <motion.div
               variants={containerVariants}
@@ -161,8 +161,8 @@ const { jwt, userFaceHash } = await auth.login();`;
               </motion.div>
 
               {/* Headline */}
-              <motion.h1 
-                variants={itemVariants} 
+              <motion.h1
+                variants={itemVariants}
                 className="text-5xl sm:text-6xl lg:text-7xl font-display font-extrabold tracking-tight leading-[1.05]"
               >
                 Zero-Knowledge<br />
@@ -172,7 +172,7 @@ const { jwt, userFaceHash } = await auth.login();`;
               </motion.h1>
 
               {/* Subheadline */}
-              <motion.p 
+              <motion.p
                 variants={itemVariants}
                 className="text-base sm:text-lg text-slate-400 max-w-xl font-light leading-relaxed"
               >
@@ -183,8 +183,8 @@ const { jwt, userFaceHash } = await auth.login();`;
               <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Link to="/dashboard">
                   <motion.button
-                    whileHover={{ 
-                      scale: 1.02, 
+                    whileHover={{
+                      scale: 1.02,
                       boxShadow: '0 0 25px rgba(0, 240, 255, 0.4)'
                     }}
                     whileTap={{ scale: 0.98 }}
@@ -197,7 +197,7 @@ const { jwt, userFaceHash } = await auth.login();`;
 
                 <a href="#dx-section">
                   <motion.button
-                    whileHover={{ 
+                    whileHover={{
                       scale: 1.02,
                       borderColor: 'rgba(0, 240, 255, 0.3)',
                       background: 'rgba(255, 255, 255, 0.04)',
@@ -245,11 +245,11 @@ const { jwt, userFaceHash } = await auth.login();`;
             <p className="text-center text-[10px] uppercase tracking-[0.25em] font-bold text-zinc-400 mb-6 font-mono">
               Natively integrated with the EVM Ecosystem
             </p>
-            
+
             {/* Ticker Container with faded edge gradients */}
-            <div 
+            <div
               className="relative w-full overflow-hidden"
-              style={{ 
+              style={{
                 maskImage: 'linear-gradient(to right, transparent, white 20%, white 80%, transparent)',
                 WebkitMaskImage: 'linear-gradient(to right, transparent, white 20%, white 80%, transparent)'
               }}
@@ -269,12 +269,17 @@ const { jwt, userFaceHash } = await auth.login();`;
                 {EVMChains.map((chain, index) => {
                   const ChainIcon = chain.icon;
                   return (
-                    <div 
-                      key={index} 
-                      className="flex items-center space-x-3 text-zinc-400 hover:text-[#00F0FF] transition-all duration-300 group cursor-pointer"
+                    <div
+                      key={index}
+                      className="flex items-center space-x-3 text-zinc-400 transition-all duration-300 group cursor-pointer"
+                      style={{ '--hover-color': chain.color } as React.CSSProperties}
                     >
-                      <ChainIcon className="h-4.5 w-4.5 opacity-60 group-hover:opacity-100 group-hover:drop-shadow-[0_0_8px_#00F0FF] transition-all" />
-                      <span className="text-xs font-mono font-semibold tracking-wider">{chain.name}</span>
+                      <ChainIcon
+                        className="h-4.5 w-4.5 text-zinc-400 opacity-60 group-hover:opacity-100 group-hover:[color:var(--hover-color)] transition-all"
+                      />
+                      <span className="text-xs font-mono font-semibold tracking-wider group-hover:[color:var(--hover-color)] transition-all">
+                        {chain.name}
+                      </span>
                     </div>
                   );
                 })}
@@ -287,9 +292,9 @@ const { jwt, userFaceHash } = await auth.login();`;
         <section id="dx-section" className="relative py-24 bg-[#05050a]/40 border-b border-gray-950">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              
+
               {/* Left Column Description */}
-              <motion.div 
+              <motion.div
                 initial={{ y: 20, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true }}
@@ -300,15 +305,15 @@ const { jwt, userFaceHash } = await auth.login();`;
                   <Terminal className="h-3.5 w-3.5 text-[#00F0FF]" />
                   <span>Developer Experience</span>
                 </div>
-                
+
                 <h2 className="text-3xl sm:text-4xl font-display font-extrabold text-white tracking-tight leading-tight">
                   Integrate in minutes,<br />not months.
                 </h2>
-                
+
                 <p className="text-zinc-400 text-sm font-light leading-relaxed">
                   Implement passwordless biometric validation via simple client-side APIs.
                 </p>
-                
+
                 <ul className="space-y-4 text-xs text-zinc-300 font-light font-sans">
                   <li className="flex items-center space-x-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#00F0FF]" />
@@ -326,7 +331,7 @@ const { jwt, userFaceHash } = await auth.login();`;
               </motion.div>
 
               {/* Right Column Terminal Window */}
-              <motion.div 
+              <motion.div
                 initial={{ y: 30, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true }}
@@ -343,7 +348,7 @@ const { jwt, userFaceHash } = await auth.login();`;
                       <div className="w-2.5 h-2.5 rounded-full bg-green-500/80 hover:bg-green-500 cursor-pointer" />
                     </div>
                     <div className="text-[10px] text-zinc-400 font-mono">praman-auth-sample.ts</div>
-                    <button 
+                    <button
                       onClick={handleCopyCode}
                       className="text-zinc-400 hover:text-white transition-colors"
                       title="Copy code"
@@ -351,7 +356,7 @@ const { jwt, userFaceHash } = await auth.login();`;
                       {isCopied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
                     </button>
                   </div>
-                  
+
                   {/* Syntax highlighted container */}
                   <div className="p-6 overflow-x-auto text-xs sm:text-sm font-mono leading-relaxed bg-black/30 min-h-[220px]">
                     <pre className="text-zinc-300">
