@@ -3,14 +3,11 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO.tsx';
 import {
-  ShieldCheck,
-  Network,
   ArrowRight,
   Cpu,
   Briefcase,
   ChevronRight,
   Sparkles,
-  Layers,
   Terminal,
   UserCheck,
   Zap,
@@ -19,6 +16,10 @@ import {
   Copy,
   Check
 } from 'lucide-react';
+import PolygonLogo from '../assets/logos/polygon-matic-logo.svg';
+import ArbitrumLogo from '../assets/logos/arbitrum-arb-logo.svg';
+import AlgorandLogo from '../assets/logos/algorand-algo-logo.svg';
+import MantleLogo from '../assets/logos/mantle-mnt-logo.svg';
 import Navbar from '../components/Navbar.tsx';
 import Footer from '../components/Footer.tsx';
 import ZKIdentityCore from '../components/ZKIdentityCore.tsx';
@@ -75,14 +76,14 @@ const { jwt, userFaceHash } = await auth.login();`;
 
   // Duplicated log list for infinite ticker
 const EVMChains = [
-    { name: "POLYGON", icon: Layers, color: "#8247E5" },
-    { name: "MANTLE NETWORK", icon: Cpu, color: "#40A6BF" },
-    { name: "ALGORAND", icon: ShieldCheck, color: "#FFFFFF" },
-    { name: "ARBITRUM", icon: Network, color: "#016BE5" },
-    { name: "POLYGON", icon: Layers, color: "#8247E5" },
-    { name: "MANTLE NETWORK", icon: Cpu, color: "#40A6BF" },
-    { name: "ALGORAND", icon: ShieldCheck, color: "#FFFFFF" },
-    { name: "ARBITRUM", icon: Network, color: "#016BE5" },
+    { name: "POLYGON", logo: PolygonLogo },
+    { name: "MANTLE NETWORK", logo: MantleLogo },
+    { name: "ALGORAND", logo: AlgorandLogo },
+    { name: "ARBITRUM", logo: ArbitrumLogo },
+    { name: "POLYGON", logo: PolygonLogo },
+    { name: "MANTLE NETWORK", logo: MantleLogo },
+    { name: "ALGORAND", logo: AlgorandLogo },
+    { name: "ARBITRUM", logo: ArbitrumLogo },
   ];
 
   const ecosystemApps = [
@@ -254,36 +255,33 @@ const EVMChains = [
                 WebkitMaskImage: 'linear-gradient(to right, transparent, white 20%, white 80%, transparent)'
               }}
             >
-              <motion.div
-                className="flex space-x-16 items-center w-max"
-                animate={{ x: [0, -560] }}
-                transition={{
-                  x: {
-                    repeat: Infinity,
-                    repeatType: "loop",
-                    duration: 18,
-                    ease: "linear",
-                  },
-                }}
-              >
-                {EVMChains.map((chain, index) => {
-                  const ChainIcon = chain.icon;
-                  return (
-                    <div
-                      key={index}
-                      className="flex items-center space-x-3 text-zinc-400 transition-all duration-300 group cursor-pointer"
-                      style={{ '--hover-color': chain.color } as React.CSSProperties}
-                    >
-                      <ChainIcon
-                        className="h-4.5 w-4.5 text-zinc-400 opacity-60 group-hover:opacity-100 group-hover:[color:var(--hover-color)] transition-all"
+              <style>{`
+                @keyframes ticker-scroll {
+                  from { transform: translateX(0); }
+                  to { transform: translateX(-50%); }
+                }
+                .ticker-track {
+                  animation: ticker-scroll 18s linear infinite;
+                  will-change: transform;
+                }
+              `}</style>
+              <div className="flex space-x-16 items-center w-max ticker-track">
+                {EVMChains.map((chain, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center space-x-3 text-zinc-400 transition-all duration-300 group cursor-pointer"
+                  >
+                    <div className="h-7 w-7 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 flex items-center justify-center p-1.5 grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 group-hover:bg-white/90 group-hover:border-white/0 transition-all duration-300">
+                      <img
+                        src={chain.logo}
+                        alt={chain.name}
+                        className="h-full w-full object-contain"
                       />
-                      <span className="text-xs font-mono font-semibold tracking-wider group-hover:[color:var(--hover-color)] transition-all">
-                        {chain.name}
-                      </span>
                     </div>
-                  );
-                })}
-              </motion.div>
+                    <span className="text-xs font-mono font-semibold tracking-wider group-hover:text-[#00F0FF] transition-colors duration-300">{chain.name}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
