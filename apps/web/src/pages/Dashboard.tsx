@@ -123,8 +123,11 @@ export default function Dashboard() {
             setWalletBalance(balance);
             fetchAppsAndKeys(address);
           }
-        } catch (err) {
+        } catch (err: any) {
           console.error("Auto-connect check failed:", err);
+          if (err?.code === -32002) {
+            showToast("Network busy: Please change your RPC URL in MetaMask.", "error");
+          }
         }
       }
     };
@@ -323,9 +326,13 @@ export default function Dashboard() {
         fetchAppsAndKeys(address);
         showToast("Wallet connected successfully!");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Wallet connection failed:", err);
-      showToast("Wallet connection failed.", "error");
+      if (err?.code === -32002) {
+        showToast("Network busy: Please change your RPC URL in MetaMask.", "error");
+      } else {
+        showToast("Wallet connection failed.", "error");
+      }
     } finally {
       setIsConnecting(false);
     }
