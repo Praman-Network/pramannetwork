@@ -1,0 +1,111 @@
+---
+title: "Zero-Trust SDK Integration Guide for Next.js & React Native"
+subtitle: "Step-by-step tutorial on adding zero-knowledge biometric verification to web and mobile apps in under 10 minutes"
+slug: "zero-trust-sdk-integration-guide"
+category: "APIs"
+difficulty: "Beginner"
+readingTime: "6 min read"
+publishDate: "2026-07-02"
+featured: false
+tags: ["SDK", "Next.js", "React Native", "Tutorial", "Integration"]
+author:
+  name: "Rahul Chaudhary"
+  role: "Founder & Founding Engineer"
+  bio: "Building Zero-Knowledge biometric authentication infrastructure for Web3."
+  twitter: "ChaudharyjiTec4"
+  linkedin: "rahul-chaudhary-b31b2a297"
+  github: "Rahulchaudharyji2"
+relatedSlugs: ["sybil-resistant-passkeys-webauthn", "scaling-zk-snarks-biometric-verification"]
+---
+
+import { CodeBlock, TerminalBlock, JsonViewer, Callout, ExpandableSection, MathBlock, DataTable, ApiExample } from '../components/blog/mdx/MdxComponents.jsx';
+
+<h2 id="quickstart">Quickstart: Installing the Praman SDK</h2>
+
+Adding zero-knowledge identity to your app requires zero cryptographic background. The `@praman/sdk` library provides pre-built React hooks, UI modal dialogs, and verification utilities.
+
+<TerminalBlock title="PACKAGE INSTALLATION" code={`# Install via npm
+npm install @praman/sdk @praman/react
+
+# Or via yarn
+yarn add @praman/sdk @praman/react`} />
+
+<h2 id="step-1">Step 1: Wrap App with PramanProvider</h2>
+
+In your Next.js `_app.tsx` or `layout.tsx` file, initialize the `PramanProvider`:
+
+<CodeBlock language="typescript" filename="layout.tsx" code={`import { PramanProvider } from '@praman/react';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <PramanProvider
+      config={{
+        apiKey: process.env.NEXT_PUBLIC_PRAMAN_KEY,
+        network: 'mainnet',
+        theme: 'dark'
+      }}
+    >
+      {children}
+    </PramanProvider>
+  );
+}`} />
+
+<h2 id="step-2">Step 2: Use the `usePramanAuth` Hook</h2>
+
+Inside any component, trigger biometric authentication and retrieve a cryptographically verified ZK proof:
+
+<CodeBlock language="typescript" filename="AuthenticateButton.tsx" code={`import { usePramanAuth } from '@praman/react';
+
+export function AuthenticateButton() {
+  const { authenticate, isLoading, proof, error } = usePramanAuth();
+
+  const handleAuth = async () => {
+    const result = await authenticate({
+      action: 'CLAIM_AIRDROP',
+      minConfidenceScore: 0.95
+    });
+
+    if (result.success) {
+      console.log("Proof Payload:", result.proofPayload);
+      console.log("Unique Nullifier:", result.nullifier);
+    }
+  };
+
+  return (
+    <button 
+      onClick={handleAuth} 
+      disabled={isLoading}
+      className="btn-primary"
+    >
+      {isLoading ? 'Verifying ZK Biometrics...' : 'Verify Biometric Identity'}
+    </button>
+  );
+}`} />
+
+<Callout variant="success" title="Production Ready">
+  The Praman SDK handles WASM memory allocation, Web Workers, biometric sensors, and RPC retries automatically.
+</Callout>
+
+<h2 id="server-endpoint">Verification Server Endpoint</h2>
+
+Verify proofs on your Node.js backend using `@praman/sdk/server`:
+
+<CodeBlock language="typescript" filename="api/verify.ts" code={`import { PramanServer } from '@praman/sdk/server';
+
+const praman = new PramanServer({
+  secretKey: process.env.PRAMAN_SECRET_KEY
+});
+
+export async function POST(req: Request) {
+  const { nullifier, proofPayload } = await req.json();
+
+  const isValid = await praman.verifyProof({
+    nullifier,
+    proofPayload,
+    action: 'CLAIM_AIRDROP'
+  });
+
+  return Response.json({ verified: isValid });
+}`} />
+
+Ready to dive deeper? Explore our [Sybil-Resistant Passkeys Guide](/blog/sybil-resistant-passkeys-webauthn).

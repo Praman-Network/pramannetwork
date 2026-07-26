@@ -1,0 +1,73 @@
+/* Trending Sidebar Styling — scoped under .blog-page */
+.blog-page .trending-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.blog-page .sidebar-box {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.blog-page .sidebar-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.blog-page .sidebar-releases-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.blog-page .release-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.blog-page .sidebar-advisories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.blog-page .advisory-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-family: var(--font-mono);
+}
+
+.blog-page .sidebar-resource-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  transition: color 0.2s ease;
+}
+
+.blog-page .sidebar-resource-link:hover {
+  color: var(--neon-cyan);
+}
+
+@media (max-width: 1100px) {
+  .blog-page .trending-sidebar {
+    display: none;
+  }
+}

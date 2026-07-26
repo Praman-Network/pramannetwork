@@ -1,0 +1,114 @@
+/* Article View Layout — scoped under .blog-page */
+.blog-page .progress-bar-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--neon-cyan), var(--cyan-dim));
+  box-shadow: 0 0 10px var(--neon-cyan);
+  z-index: 9999;
+  transition: width 0.1s ease-out;
+}
+
+.blog-page .article-header-section {
+  position: relative;
+  z-index: 10;
+  padding: 40px 0 48px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 48px;
+}
+
+.blog-page .back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  transition: color 0.2s ease;
+}
+
+.blog-page .back-link:hover {
+  color: var(--neon-cyan);
+}
+
+.blog-page .article-page-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin: 16px 0 20px 0;
+  letter-spacing: -0.02em;
+}
+
+.blog-page .article-page-subtitle {
+  font-size: 1.2rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+.blog-page .article-author-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-radius: var(--radius-md);
+  background: rgba(10, 18, 25, 0.6);
+  border: 1px solid var(--border-subtle);
+}
+
+.blog-page .article-detail-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.blog-page .sticky-toc {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.blog-page .toc-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+  margin-bottom: 8px;
+}
+
+.blog-page .toc-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 4px 0 4px 12px;
+  border-left: 2px solid transparent;
+  transition: all 0.2s ease;
+  line-height: 1.4;
+}
+
+.blog-page .toc-link:hover, .blog-page .toc-link.active {
+  color: var(--neon-cyan);
+  border-left-color: var(--neon-cyan);
+}
+
+.blog-page .article-body-content {
+  max-width: var(--content-max);
+}
+
+@media (max-width: 1024px) {
+  .blog-page .article-detail-layout {
+    grid-template-columns: 1fr;
+  }
+  .blog-page .sticky-toc {
+    display: none;
+  }
+}

@@ -1,0 +1,95 @@
+/* Featured Article Banner — scoped under .blog-page */
+.blog-page .featured-card {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.blog-page .featured-gradient-header {
+  height: 180px;
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.15) 0%, rgba(167, 139, 250, 0.08) 50%, rgba(10, 18, 25, 0.6) 100%);
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 24px 32px;
+}
+
+.blog-page .featured-circuit-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+  background-image: radial-gradient(var(--neon-cyan) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+
+.blog-page .featured-content {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.blog-page .featured-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.blog-page .featured-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.blog-page .author-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid var(--neon-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--neon-cyan);
+}
+
+.blog-page .featured-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.25;
+  color: var(--text-primary);
+  transition: color 0.2s ease;
+}
+
+.blog-page .featured-card:hover .featured-title {
+  color: var(--neon-cyan);
+}
+
+.blog-page .featured-subtitle {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.blog-page .featured-read-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: var(--neon-cyan);
+  margin-top: 8px;
+}
