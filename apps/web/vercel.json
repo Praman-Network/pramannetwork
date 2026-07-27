@@ -40,11 +40,7 @@
   ],
   "rewrites": [
     {
-      "source": "/dashboard",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/contact",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
