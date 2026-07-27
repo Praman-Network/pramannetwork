@@ -11,7 +11,7 @@ export function Navbar() {
 
   return (
     <header className="glass-navbar">
-      <div className="container">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="navbar-inner">
           {/* Logo */}
           <Link to="/" className="navbar-logo">
