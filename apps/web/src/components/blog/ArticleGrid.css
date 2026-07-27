@@ -1,0 +1,12 @@
+/* Article Grid Layout — scoped under .blog-page */
+.blog-page .article-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .blog-page .article-grid {
+    grid-template-columns: 1fr;
+  }
+}

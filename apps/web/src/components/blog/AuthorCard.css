@@ -1,0 +1,51 @@
+/* Author Card Styling — scoped under .blog-page */
+.blog-page .author-profile-card {
+  padding: 32px;
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin: 56px 0;
+}
+
+.blog-page .author-large-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(0, 229, 255, 0.1);
+  border: 2px solid var(--neon-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--neon-cyan);
+  flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+}
+
+.blog-page .author-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.blog-page .author-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--text-primary);
+}
+
+.blog-page .author-bio {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.blog-page .author-links-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}

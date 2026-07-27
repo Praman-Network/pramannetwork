@@ -4,27 +4,35 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build && node scripts/generate-assets.js",
+    "dev": "node scripts/fetch-github-data.js && vite",
+    "build": "node scripts/fetch-github-data.js && tsc && vite build && node scripts/generate-assets.js && node scripts/generate-seo.js",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mdx-js/react": "^3.1.0",
+    "@supabase/supabase-js": "^2.110.8",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.10",
     "lucide-react": "^0.395.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.23.1",
+    "react-helmet-async": "^2.0.5",
+    "react-router-dom": "^6.28.2",
     "recharts": "^3.9.0",
     "tailwind-merge": "^2.3.0"
   },
   "devDependencies": {
+    "@mdx-js/rollup": "^3.1.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.0",
     "autoprefixer": "^10.4.19",
+    "glob": "^11.0.0",
+    "gray-matter": "^4.0.3",
     "postcss": "^8.4.38",
+    "remark-frontmatter": "^5.0.0",
+    "remark-mdx-frontmatter": "^4.0.0",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
     "vite": "^5.2.11"

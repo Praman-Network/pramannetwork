@@ -1,0 +1,75 @@
+---
+title: "Anatomy of Praman Protocol v1.4: Sub-Second Recursive zk-Rollups"
+subtitle: "Deep dive into our recursive SNARK aggregation engine designed for high-throughput identity verification"
+slug: "praman-protocol-v1-4-recursive-rollups"
+category: "Blockchain"
+difficulty: "Advanced"
+readingTime: "12 min read"
+publishDate: "2026-07-08"
+featured: false
+tags: ["zk-Rollups", "Recursion", "Groth16", "Layer2", "Protocol"]
+author:
+  name: "Rahul Chaudhary"
+  role: "Founder & Founding Engineer"
+  bio: "Building Zero-Knowledge biometric authentication infrastructure for Web3."
+  twitter: "ChaudharyjiTec4"
+  linkedin: "rahul-chaudhary-b31b2a297"
+  github: "Rahulchaudharyji2"
+relatedSlugs: ["scaling-zk-snarks-biometric-verification", "formal-verification-circom-circuits"]
+---
+
+import { CodeBlock, TerminalBlock, JsonViewer, Callout, ExpandableSection, MathBlock, DataTable, ApiExample } from '../components/blog/mdx/MdxComponents.jsx';
+
+<h2 id="protocol-overview">Protocol Overview: Scaling Identity Verification</h2>
+
+Praman Protocol v1.4 introduces **Recursive SNARK Aggregation** directly into our Layer-2 identity rollup network. By folding 64 individual biometric verification proofs into a single recursive meta-proof, Praman reduces per-verification gas costs on Ethereum Mainnet to less than **2,200 gas**.
+
+<Callout variant="info" title="v1.4 Milestone">
+  Praman v1.4 handles over 24,000 identity verifications per second (TPS) across our decentralized node consensus network.
+</Callout>
+
+<h2 id="recursive-circuit">Recursive Circuit Design</h2>
+
+The core recursive circuit `RecursiveBatchVerifier.circom` takes `N` inner Groth16 proofs and verifies their pairing equations recursively inside a single outer proof:
+
+<CodeBlock language="rust" filename="recursive_aggregator.rs" code={`use praman_crypto::groth16::{Proof, VerifyingKey};
+use praman_recursive::RecursiveEngine;
+
+pub fn aggregate_proofs(
+    proofs: Vec<Proof>,
+    vkey: &VerifyingKey
+) -> Result<Proof, AggregationError> {
+    let mut engine = RecursiveEngine::new();
+    
+    for proof in proofs {
+        engine.accumulate_pairing(&proof, vkey)?;
+    }
+    
+    // Finalize recursive rollup proof
+    let meta_proof = engine.finalize_batch_proof()?;
+    Ok(meta_proof)
+}`} />
+
+<h2 id="benchmark-comparisons">Benchmark Comparisons</h2>
+
+<DataTable 
+  headers={['Protocol Version', 'Batch Size', 'Gas per Verification', 'Finality Time']}
+  rows={[
+    ['Praman v1.0 (Single Proof)', '1', '210,000 gas', '12.4s'],
+    ['Praman v1.2 (Linear Batch)', '16', '18,500 gas', '3.8s'],
+    ['Praman v1.4 (Recursive)', '64', '2,180 gas', '480ms']
+  ]}
+/>
+
+<TerminalBlock title="ROLLUP BATCH TELEMETRY" code={`$ praman-node status --network mainnet
+[SYSTEM] Node Status: ONLINE (Leader Sync)
+[ZK-ROLLUP] Active Batch ID: #89,204
+[ZK-ROLLUP] Accumulating proofs: 64/64 collected (100%)
+[ZK-ROLLUP] Executing Recursive Folding Circuit...
+> Batch state root: 0x9c12b8e3...3f88
+> Recursive proof size: 192 bytes
+> Submitting batch to L1 Ethereum Contract 0x7d5e...1d56
+> Transaction Hash: 0xa8f2c014...90b2 (Confirmed in 1 block)
+> Gas Efficiency: 2,180 gas/verification ✓`} />
+
+Explore our protocol documentation or read about [Circom Circuit Auditing](/blog/formal-verification-circom-circuits).

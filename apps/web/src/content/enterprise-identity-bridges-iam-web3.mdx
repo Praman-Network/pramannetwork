@@ -1,0 +1,67 @@
+---
+title: "Building Enterprise Identity Bridges: AWS & Azure IAM to Web3 DID"
+subtitle: "Architecting zero-knowledge bridges connecting SAML 2.0 and OAuth OIDC enterprise directory services to decentralized identifiers"
+slug: "enterprise-identity-bridges-iam-web3"
+category: "Engineering"
+difficulty: "Intermediate"
+readingTime: "7 min read"
+publishDate: "2026-06-05"
+featured: false
+tags: ["Enterprise", "AWS IAM", "Azure AD", "OAuth", "DID", "Web3"]
+author:
+  name: "Rahul Chaudhary"
+  role: "Founder & Founding Engineer"
+  bio: "Building Zero-Knowledge biometric authentication infrastructure for Web3."
+  twitter: "ChaudharyjiTec4"
+  linkedin: "rahul-chaudhary-b31b2a297"
+  github: "Rahulchaudharyji2"
+relatedSlugs: ["zero-trust-sdk-integration-guide", "sybil-resistant-passkeys-webauthn"]
+---
+
+import { CodeBlock, TerminalBlock, JsonViewer, Callout, ExpandableSection, MathBlock, DataTable, ApiExample } from '../components/blog/mdx/MdxComponents.jsx';
+
+<h2 id="bridging-web2-web3">Bridging Web2 Enterprise Directory Services with Web3</h2>
+
+Fortune 500 enterprises transitioning to decentralized Web3 workflows face a major hurdle: **employees already possess authenticated enterprise identities inside Okta, AWS IAM Identity Center, or Azure Active Directory (Entra ID).**
+
+Requiring enterprise employees to manage raw seed phrases creates unacceptable security risks. Praman Identity Bridge allows organizations to convert SAML 2.0 assertion tokens into W3C Verifiable Credentials and Decentralized Identifiers (DIDs) using RSA-to-SNARK zero-knowledge proofs.
+
+<Callout variant="info" title="Zero Enterprise Modification">
+  Your existing Azure AD or AWS IAM configuration requires no code changes. Praman acts as an OIDC identity provider proxy.
+</Callout>
+
+<h2 id="oidc-rsa-proofs">Architecture: OIDC RSA Signature Proofs</h2>
+
+When an employee logs into Azure AD, Azure signs a JWT ID token using an RSA-2048 private key. The Praman Bridge verifies the RSA-2048 signature inside a zk-SNARK circuit:
+
+<CodeBlock language="typescript" filename="enterprise_bridge.ts" code={`import { PramanEnterpriseBridge } from '@praman/sdk/enterprise';
+
+const bridge = new PramanEnterpriseBridge({
+  tenantId: "azure-tenant-94a3b8",
+  clientId: "praman-app-client-id",
+  redirectUri: "https://enterprise.praman.network/callback"
+});
+
+// Convert OIDC Token into ZK Verifiable Credential
+const credential = await bridge.exchangeOidcForZkCredential({
+  oidcToken: userJwtToken,
+  claimToProve: "email_domain",
+  expectedDomain: "company.com"
+});
+
+console.log("W3C Verifiable Credential DID:", credential.did);`} />
+
+<JsonViewer title="W3C VERIFIABLE CREDENTIAL OUTPUT" code={`{
+  "@context": ["https://www.w3.org/2018/credentials/v1"],
+  "id": "urn:uuid:7d5e4a1f-9c12-b8e3",
+  "type": ["VerifiableCredential", "PramanEnterpriseIdentity"],
+  "issuer": "did:praman:enterprise-bridge-v1",
+  "issuanceDate": "2026-06-05T10:00:00Z",
+  "credentialSubject": {
+    "id": "did:praman:0x19f2a014b2d56e7890a1",
+    "organization": "Praman Network Partner",
+    "isVerifiedEmployee": true
+  }
+}`} />
+
+Check out our [Zero-Trust SDK Integration Guide](/blog/zero-trust-sdk-integration-guide) to implement identity bridging today.
