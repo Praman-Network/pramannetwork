@@ -64,7 +64,7 @@ export function BlogHome() {
           <BlogHeroSection onTopicClick={(cat: string) => setSelectedCategory(cat)} />
 
           {/* Search & Topic Filters */}
-          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 mt-4 mb-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 mb-8">
             <BlogSearchBar
               query={searchQuery}
               onQueryChange={setSearchQuery}
@@ -76,7 +76,7 @@ export function BlogHome() {
           </div>
 
           {/* Content Layout: Main Feed + Sidebar */}
-          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
               {/* Left Column: Featured Banner + Article Grid (9 cols) */}
@@ -113,7 +113,7 @@ export function BlogHome() {
 
           {/* Newsletter Subscription */}
           <ScrollReveal>
-            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 my-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-10">
               <NewsletterSection />
             </div>
           </ScrollReveal>
