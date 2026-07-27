@@ -1,0 +1,78 @@
+---
+title: "Implementing Sybil-Resistant Passkeys with WebAuthn & Groth16 Proofs"
+subtitle: "Combining FIDO2 hardware biometrics with zero-knowledge circuits to eliminate duplicate accounts"
+slug: "sybil-resistant-passkeys-webauthn"
+category: "Authentication"
+difficulty: "Intermediate"
+readingTime: "8 min read"
+publishDate: "2026-07-14"
+featured: false
+tags: ["WebAuthn", "Passkeys", "Sybil Resistance", "FIDO2", "Authentication"]
+author:
+  name: "Rahul Chaudhary"
+  role: "Founder & Founding Engineer"
+  bio: "Building Zero-Knowledge biometric authentication infrastructure for Web3."
+  twitter: "ChaudharyjiTec4"
+  linkedin: "rahul-chaudhary-b31b2a297"
+  github: "Rahulchaudharyji2"
+relatedSlugs: ["scaling-zk-snarks-biometric-verification", "zero-trust-sdk-integration-guide"]
+---
+
+import { CodeBlock, TerminalBlock, JsonViewer, Callout, ExpandableSection, MathBlock, DataTable, ApiExample } from '../components/blog/mdx/MdxComponents.jsx';
+
+<h2 id="the-sybil-problem">The Sybil Problem with Standard Passkeys</h2>
+
+WebAuthn passkeys (Apple Touch ID, Face ID, Windows Hello) provide phenomenal user UX by replacing passwords with hardware-backed cryptographic keys. However, standard Passkeys suffer from a critical flaw when used for decentralized applications: **a single user can register an unlimited number of Passkey credentials across multiple devices or wallets.**
+
+Without Sybil resistance, passkey authentication cannot prevent botnets or multi-account farming in dApps, DAOs, and airdrop distributions.
+
+<Callout variant="warning" title="Security Reality">
+  Standard WebAuthn public keys are domain-bound but random per registration. Generating 1,000 passkeys creates 1,000 distinct public keys, completely bypassing traditional unique-account checks.
+</Callout>
+
+<h2 id="architecture">Architecture: The Praman Passkey Shield</h2>
+
+Praman Protocol introduces a zero-knowledge wrapper around the WebAuthn `authenticatorData` signature payload.
+
+<CodeBlock language="typescript" filename="passkey-authenticator.ts" code={`import { PramanPasskey } from '@praman/sdk';
+
+// 1. Trigger native WebAuthn prompt
+const passkeyCredential = await PramanPasskey.authenticate({
+  challenge: new Uint8Array(32),
+  rpId: "app.praman.network"
+});
+
+// 2. Generate ZK Sybil Nullifier without revealing device public key
+const { zkProof, nullifier } = await PramanPasskey.generateSybilProof({
+  credential: passkeyCredential,
+  appId: "praman-airdrop-v1"
+});
+
+console.log("Unique Sybil Nullifier:", nullifier);`} />
+
+<h2 id="nullifier-math">Zero-Knowledge Nullifier Math</h2>
+
+To prove that a passkey belongs to a unique human without linking their public key across dApps, we construct a deterministic nullifier using Poseidon hashing over the secp256r1 curve points:
+
+<MathBlock formula="Nullifier = Poseidon( H(WebAuthn_Public_Key) || App_Scope_ID )" />
+
+<Callout variant="security" title="Privacy Assurance">
+  Even if dApp A and dApp B both inspect the nullifier, they obtain different nullifiers because `App_Scope_ID` differs. The user remains pseudonymous across the Web3 ecosystem.
+</Callout>
+
+<ApiExample method="POST" url="/v1/auth/passkey-verify">
+  <JsonViewer title="VERIFICATION REQUEST" code={`{
+  "appId": "praman-airdrop-v1",
+  "nullifier": "0x3f88d01a2b4c6e8f19f2a014b2d56e7890a1",
+  "zkProof": "0x00E5FF...7d5e4a1f"
+}`} />
+</ApiExample>
+
+<h2 id="integration-checklist">Integration Checklist for Developers</h2>
+
+1. Install `@praman/sdk` via npm or yarn
+2. Configure WebAuthn RP ID in your developer dashboard
+3. Replace raw WebAuthn callbacks with `PramanPasskey.authenticate()`
+4. Verify nullifiers on-chain or via Praman SDK middleware
+
+Learn more in our [Zero-Trust SDK Integration Guide](/blog/zero-trust-sdk-integration-guide).

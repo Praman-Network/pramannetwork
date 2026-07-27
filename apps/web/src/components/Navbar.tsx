@@ -15,17 +15,15 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
 
   const location = useLocation();
   const isDashboard = location.pathname === '/dashboard';
+  const isBlog = location.pathname.startsWith('/blog');
 
   const formatAddress = (addr: string) => {
     return `${addr.substring(0, 6)}...${addr.substring(addr.length - 4)}`;
   };
 
-  // Scroll detection to highlight navbar on scroll
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
-      // Scrolled past 20px - activate glassmorphism highlight
       if (currentScrollY > 20) {
         setScrolled(true);
       } else {
@@ -48,18 +46,18 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
           : 'bg-transparent border-b border-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-24">
           
           <Link to="/" className="flex items-center space-x-3 group relative">
             <img 
               src="/logo.png" 
               alt="Praman Network Logo" 
-              width="32"
-              height="32"
+              width="40"
+              height="40"
               fetchPriority="high"
               decoding="async"
-              className="h-8 w-8 object-contain mix-blend-screen transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 filter drop-shadow-[0_0_8px_rgba(13,242,201,0.4)]"
+              className="h-10 w-10 object-contain mix-blend-screen transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 filter drop-shadow-[0_0_8px_rgba(13,242,201,0.4)]"
             />
             <div className="flex flex-col">
               <span className="font-display font-bold text-lg leading-tight tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-[#0DF2C9]">
@@ -72,10 +70,10 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
           </Link>
 
           {/* Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-10">
             <Link
               to="/"
-              className={`text-sm font-medium transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan relative py-1 ${
+              className={`text-[15px] font-medium transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan relative py-1 ${
                 location.pathname === '/' ? 'text-[#00F0FF] text-glow-cyan' : 'text-slate-300'
               }`}
             >
@@ -89,15 +87,15 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
             </Link>
             
             <a
-              href="#features"
-              className="text-sm font-medium text-slate-300 transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan"
+              href="/#features"
+              className="text-[15px] font-medium text-slate-300 transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan"
             >
               Verify Stack
             </a>
 
             <Link
               to="/dashboard"
-              className={`text-sm font-medium transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan flex items-center space-x-1 relative py-1 ${
+              className={`text-[15px] font-medium transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan flex items-center space-x-1 relative py-1 ${
                 isDashboard ? 'text-[#00F0FF] text-glow-cyan' : 'text-slate-300'
               }`}
             >
@@ -114,16 +112,31 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
             <a
               href="https://docs.praman.network/"
               target="_blank"
-              rel="noreferrer"
-              className="text-sm font-medium text-slate-400 transition-all duration-300 hover:text-white flex items-center space-x-0.5"
+              rel="noopener noreferrer"
+              className="text-[15px] font-medium text-slate-400 transition-all duration-300 hover:text-white flex items-center space-x-0.5"
             >
               <span>Docs</span>
               <ArrowUpRight className="h-3 w-3" />
             </a>
 
             <Link
+              to="/blog"
+              className={`text-[15px] font-medium transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan relative py-1 ${
+                isBlog ? 'text-[#00F0FF] text-glow-cyan' : 'text-slate-300'
+              }`}
+            >
+              Blog
+              {isBlog && (
+                <motion.div
+                  layoutId="nav-underline"
+                  className="absolute bottom-0 left-0 w-full h-[2px] bg-[#00F0FF] shadow-[0_0_8px_#00F0FF]"
+                />
+              )}
+            </Link>
+
+            <Link
               to="/contact"
-              className={`text-sm font-medium transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan relative py-1 ${
+              className={`text-[15px] font-medium transition-all duration-300 hover:text-[#00F0FF] hover:text-glow-cyan relative py-1 ${
                 location.pathname === '/contact' ? 'text-[#00F0FF] text-glow-cyan' : 'text-slate-300'
               }`}
             >
@@ -170,7 +183,7 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
                 <motion.button
                   whileHover={{ scale: 1.02, boxShadow: '0 0 20px rgba(0, 240, 255, 0.5)' }}
                   whileTap={{ scale: 0.98 }}
-                  className="bg-[#00F0FF] text-[#0B0E14] px-5 py-2.5 rounded-lg font-bold text-xs tracking-wider uppercase flex items-center space-x-2 font-display transition-all duration-300"
+                  className="bg-[#00F0FF] text-[#0B0E14] px-6 py-3 rounded-lg font-bold text-sm tracking-wider uppercase flex items-center space-x-2 font-display transition-all duration-300"
                 >
                   <span>Console</span>
                   <ArrowUpRight className="h-4 w-4" />
@@ -211,7 +224,7 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
                 Protocol
               </Link>
               <a
-                href="#features"
+                href="/#features"
                 onClick={() => setIsOpen(false)}
                 className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-400 hover:text-[#0DF2C9] uppercase font-mono"
               >
@@ -227,12 +240,18 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
               <a
                 href="https://docs.praman.network/"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-400 hover:text-white uppercase font-mono"
               >
                 Docs
               </a>
-              
+              <Link
+                to="/blog"
+                onClick={() => setIsOpen(false)}
+                className="block px-3 py-2 text-sm font-semibold tracking-wider text-slate-300 hover:text-[#0DF2C9] uppercase font-mono"
+              >
+                Blog
+              </Link>
               <Link
                 to="/contact"
                 onClick={() => setIsOpen(false)}

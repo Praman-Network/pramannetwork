@@ -1,0 +1,62 @@
+/* Newsletter Section Styling — scoped under .blog-page */
+.blog-page .newsletter-section {
+  margin-top: 80px;
+  position: relative;
+}
+
+.blog-page .newsletter-card {
+  padding: 56px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.blog-page .newsletter-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.blog-page .newsletter-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.blog-page .newsletter-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  max-width: 540px;
+  margin: 0 auto 36px auto;
+  line-height: 1.6;
+}
+
+.blog-page .newsletter-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.blog-page .newsletter-input {
+  flex-grow: 1;
+  padding: 14px 20px;
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .blog-page .newsletter-form {
+    flex-direction: column;
+  }
+  .blog-page .newsletter-input {
+    width: 100%;
+  }
+  .blog-page .btn-primary {
+    width: 100%;
+  }
+}

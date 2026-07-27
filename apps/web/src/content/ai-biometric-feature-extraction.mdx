@@ -1,0 +1,58 @@
+---
+title: "AI-Powered Biometric Feature Extraction with Privacy-Preserving Homomorphic Encryption"
+subtitle: "How neural feature extractors output non-reversible mathematical embeddings verified via ZK proofs"
+slug: "ai-biometric-feature-extraction"
+category: "AI"
+difficulty: "Intermediate"
+readingTime: "9 min read"
+publishDate: "2026-06-18"
+featured: false
+tags: ["AI", "Machine Learning", "Homomorphic Encryption", "Biometrics", "Privacy"]
+author:
+  name: "Rahul Chaudhary"
+  role: "Founder & Founding Engineer"
+  bio: "Building Zero-Knowledge biometric authentication infrastructure for Web3."
+  twitter: "ChaudharyjiTec4"
+  linkedin: "rahul-chaudhary-b31b2a297"
+  github: "Rahulchaudharyji2"
+relatedSlugs: ["scaling-zk-snarks-biometric-verification", "sybil-resistant-passkeys-webauthn"]
+---
+
+import { CodeBlock, TerminalBlock, JsonViewer, Callout, ExpandableSection, MathBlock, DataTable, ApiExample } from '../components/blog/mdx/MdxComponents.jsx';
+
+<h2 id="privacy-ai">Privacy in the Age of AI Biometrics</h2>
+
+Modern facial and fingerprint authentication relies on deep neural networks to project raw sensor readings into 512-dimensional vector embeddings. However, storing raw embedding vectors in a centralized database exposes users to reverse-engineering attacks where facial images can be reconstructed from embedding vectors.
+
+Praman Protocol combines **Lightweight Mobile Neural Networks** with **Fully Homomorphic Encryption (FHE)** and **zk-SNARKs** to ensure raw biometric data never leaves the client's local device memory.
+
+<Callout variant="info" title="Zero Image Exposure">
+  Neither raw camera frames nor unencrypted feature vectors are ever written to disk or sent across the network.
+</Callout>
+
+<h2 id="pipeline">The Feature Extraction Pipeline</h2>
+
+<CodeBlock language="python" filename="feature_extractor.py" code={`import torch
+import torch.nn as nn
+
+class PrivacyBiometricEncoder(nn.Module):
+    def __init__(self):
+        super().__init__()
+        # Mobile-optimized MobileNetV3 backbone
+        self.backbone = torch.hub.load('pytorch/vision', 'mobilenet_v3_small')
+        self.projection = nn.Linear(1000, 512)
+        
+    def forward(self, face_tensor):
+        features = self.backbone(face_tensor)
+        embeddings = self.projection(features)
+        # L2 Normalization for cosine similarity matching
+        norm_embeddings = torch.nn.functional.normalize(embeddings, p=2, dim=1)
+        return norm_embeddings`} />
+
+<h2 id="distance-eval">Homomorphic Distance Evaluation</h2>
+
+Instead of decrypting feature vectors on a server to calculate similarity, Praman node operators compute the vector distance directly on ciphertext using the CKKS Homomorphic Scheme:
+
+<MathBlock formula="E(Distance) = E(v1) \otimes E(v2)" />
+
+Learn more about our client-side proving engine in [Scaling zk-SNARKs for Real-Time Verification](/blog/scaling-zk-snarks-biometric-verification).

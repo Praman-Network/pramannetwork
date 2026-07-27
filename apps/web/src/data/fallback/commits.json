@@ -1,0 +1,23 @@
+[
+  {
+    "sha": "7d5e4a1f",
+    "commit": {
+      "message": "feat(circuits): optimize Groth16 Poseidon hash constraint count",
+      "author": { "name": "Rahul Chaudhary", "date": "2026-07-24T14:22:00Z" }
+    }
+  },
+  {
+    "sha": "9c12b8e3",
+    "commit": {
+      "message": "fix(sdk): resolve WebAuthn challenge replay in React Native bridge",
+      "author": { "name": "Praman Core Team", "date": "2026-07-23T09:45:00Z" }
+    }
+  },
+  {
+    "sha": "3f88d01a",
+    "commit": {
+      "message": "perf(verifier): add recursive rollup batch verification endpoint",
+      "author": { "name": "Rahul Chaudhary", "date": "2026-07-21T18:10:00Z" }
+    }
+  }
+]

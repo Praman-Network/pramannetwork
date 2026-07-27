@@ -1,0 +1,114 @@
+/* Search & Filter Section — scoped under .blog-page */
+.blog-page .search-filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.blog-page .search-bar-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background: rgba(10, 10, 12, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 12px 20px;
+  transition: all 0.3s ease;
+}
+
+.blog-page .search-bar-wrapper:focus-within {
+  border-color: rgba(0, 229, 255, 0.5);
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.2);
+}
+
+.blog-page .search-icon {
+  color: #00E5FF;
+  margin-right: 14px;
+  flex-shrink: 0;
+}
+
+.blog-page .search-input {
+  width: 100%;
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #F8FAFC;
+  font-family: var(--font-sans);
+  font-size: 15px;
+}
+
+.blog-page .search-input::placeholder {
+  color: #64748B;
+}
+
+.blog-page .cmdk-trigger-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94A3B8;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.blog-page .cmdk-trigger-btn:hover {
+  color: #00E5FF;
+  border-color: rgba(0, 229, 255, 0.3);
+}
+
+.blog-page .category-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.blog-page .category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94A3B8;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.blog-page .category-pill span {
+  color: inherit;
+}
+
+.blog-page .category-pill:hover {
+  color: #F8FAFC;
+  border-color: rgba(0, 229, 255, 0.3);
+  background: rgba(0, 229, 255, 0.05);
+}
+
+.blog-page .category-pill.active {
+  background: rgba(0, 229, 255, 0.12);
+  color: #00E5FF;
+  border-color: rgba(0, 229, 255, 0.4);
+  font-weight: 600;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+}
+
+.blog-page .pill-count {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  opacity: 0.7;
+}
