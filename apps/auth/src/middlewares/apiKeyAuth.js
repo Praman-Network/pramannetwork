@@ -33,9 +33,17 @@ export const verifyApiKey = async (req, res, next) => {
     }
 
     const allowedOrigins = keyData.allowed_origins;
-    
-    // Origin Whitelist Logic (Enforce only if origins are whitelisted)
-    if (allowedOrigins && allowedOrigins.length > 0) {
+
+// Block requests entirely if no whitelist is configured (secure by default)
+if (!allowedOrigins || allowedOrigins.length === 0) {
+  return res.status(403).json({
+    success: false,
+    error_code: "NO_ORIGINS_CONFIGURED",
+    message: "No allowed origins configured for this API Key. Add at least one origin in the dashboard before making requests."
+  });
+}
+
+if (allowedOrigins.length > 0) {
       if (!requestOrigin) {
         return res.status(403).json({
           success: false,
