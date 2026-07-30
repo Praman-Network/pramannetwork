@@ -79,8 +79,8 @@ export function BlogHome() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
-              {/* Left Column: Featured Banner + Article Grid (9 cols) */}
-              <div className="lg:col-span-9 space-y-8">
+              {/* Left Column: Featured Banner + Article Grid (full width) */}
+              <div className="lg:col-span-12 space-y-8">
                 {selectedCategory === 'All' && !searchQuery && featuredArticle && (
                   <ScrollReveal>
                     <FeaturedArticle article={featuredArticle} />
@@ -101,12 +101,6 @@ export function BlogHome() {
                 </ScrollReveal>
               </div>
 
-              {/* Right Column: Trending Sidebar (3 cols) */}
-              <div className="lg:col-span-3 sticky top-24">
-                <ScrollReveal>
-                  <TrendingSidebar onTagSelect={(tag: string) => setSearchQuery(tag)} />
-                </ScrollReveal>
-              </div>
 
             </div>
           </div>
