@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  min-height: 460px;
 }
 
 .blog-page .hero-content {
@@ -52,7 +53,7 @@
   line-height: 1.7;
   color: var(--text-secondary);
   margin-bottom: 28px;
-  max-width: 576px;
+  max-width: 768px;
   text-align: center;
 }
 
