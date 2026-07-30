@@ -5,16 +5,18 @@
 }
 
 .blog-page .hero-grid {
-  display: grid;
-  grid-template-columns: 7fr 5fr;
-  gap: 64px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .blog-page .hero-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
 }
 
 .blog-page .hero-badge-pill {
@@ -42,6 +44,7 @@
   letter-spacing: -0.02em;
   color: var(--text-primary);
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .blog-page .hero-subtitle {
@@ -50,11 +53,13 @@
   color: var(--text-secondary);
   margin-bottom: 28px;
   max-width: 576px;
+  text-align: center;
 }
 
 .blog-page .hero-ctas {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 14px;
   margin-bottom: 32px;
   flex-wrap: wrap;
@@ -109,7 +114,6 @@
 
 @media (max-width: 1024px) {
   .blog-page .hero-grid {
-    grid-template-columns: 1fr;
     gap: 40px;
   }
 }
