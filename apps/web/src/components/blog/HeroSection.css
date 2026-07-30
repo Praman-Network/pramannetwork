@@ -17,7 +17,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  max-width: 768px;
+  max-width: 896px;
   width: 100%;
 }
 
@@ -54,7 +54,7 @@
   line-height: 1.7;
   color: var(--text-secondary);
   margin-bottom: 28px;
-  max-width: 640px;
+  max-width: 768px;
   text-align: center;
 }
 
