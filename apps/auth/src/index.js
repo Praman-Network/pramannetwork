@@ -182,10 +182,44 @@ app.post("/api/v1/subscribe", async (req, res) => {
       throw error;
     }
 
+    // Send Welcome Email
+    if (process.env.RESEND_API_KEY) {
+      try {
+        const { Resend } = await import('resend');
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        
+        await resend.emails.send({
+          from: 'Praman Network <updates@praman.network>', // Make sure this domain is verified in Resend
+          to: email,
+          subject: 'Welcome to the Praman Engineering Newsletter! 🚀',
+          html: `
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; background-color: #0B0E14; color: #ffffff; padding: 40px; border-radius: 12px; border: 1px solid #1a2235;">
+              <h2 style="color: #00F0FF; margin-bottom: 24px;">Subscription Confirmed</h2>
+              <p style="font-size: 16px; line-height: 1.6; color: #a0aec0;">
+                Thank you for subscribing! 
+              </p>
+              <p style="font-size: 16px; line-height: 1.6; color: #a0aec0;">
+                You are now on the list to receive our latest zero-knowledge research, protocol updates, and technical deep-dives directly to your inbox whenever a new article is published.
+              </p>
+              <div style="margin: 32px 0;">
+                <a href="https://praman.network/blog" style="background-color: #00F0FF; color: #0B0E14; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block;">
+                  Visit the Blog
+                </a>
+              </div>
+            </div>
+          `
+        });
+        console.log("Welcome email sent to", email);
+      } catch (emailErr) {
+        console.error("Failed to send welcome email:", emailErr);
+        // We do not fail the request if the welcome email fails, as the user is still subscribed in DB
+      }
+    }
+
     return res.status(200).json({ success: true, message: "Subscribed successfully!" });
   } catch (error) {
     console.error("Subscription Error:", error);
-    return res.status(500).json({ success: false, error: "Internal server error." });
+    return res.status(500).json({ success: false, error: "Internal server error: " + error.message });
   }
 });
 
