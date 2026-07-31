@@ -189,7 +189,7 @@ app.post("/api/v1/subscribe", async (req, res) => {
         const resend = new Resend(process.env.RESEND_API_KEY);
         
         await resend.emails.send({
-          from: 'Praman Network <updates@praman.network>', // Make sure this domain is verified in Resend
+          from: 'onboarding@resend.dev', // Default testing email (Change this to your verified domain later!)
           to: email,
           subject: 'Welcome to the Praman Engineering Newsletter! 🚀',
           html: `
