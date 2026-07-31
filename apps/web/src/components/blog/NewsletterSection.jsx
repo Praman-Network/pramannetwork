@@ -8,25 +8,48 @@ export function NewsletterSection() {
   const [email, setEmail] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
+    setLoading(true);
 
     const cleanEmail = email.trim().substring(0, 100);
 
     if (!cleanEmail) {
       setErrorMsg('Please enter your email address.');
+      setLoading(false);
       return;
     }
 
     if (!EMAIL_REGEX.test(cleanEmail)) {
       setErrorMsg('Please enter a valid email address (e.g., alex@company.com).');
+      setLoading(false);
       return;
     }
 
-    // Successfully validated
-    setSubscribed(true);
+    try {
+      const API_URL = import.meta.env.VITE_AUTH_API_URL || 'http://localhost:5050';
+      const response = await fetch(`${API_URL}/api/v1/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: cleanEmail }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        setSubscribed(true);
+      } else {
+        throw new Error(data.error || 'Failed to subscribe');
+      }
+    } catch (err) {
+      console.error('Subscription Error:', err);
+      setErrorMsg(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -64,8 +87,8 @@ export function NewsletterSection() {
                 maxLength={100}
                 required
               />
-              <button type="submit" className="btn-primary">
-                SUBSCRIBE
+              <button type="submit" className="btn-primary" disabled={loading}>
+                {loading ? 'SUBSCRIBING...' : 'SUBSCRIBE'}
               </button>
             </form>
           )}

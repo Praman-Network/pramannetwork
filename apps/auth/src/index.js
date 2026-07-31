@@ -154,6 +154,40 @@ app.post("/api/v1/verify-zk", verifyApiKey, async (req, res) => {
     });
   }
 });
+// Newsletter Subscription Route
+app.post("/api/v1/subscribe", async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    if (!email) {
+      return res.status(400).json({ success: false, error: "Email is required." });
+    }
+
+    // Server-side validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ success: false, error: "Invalid email format." });
+    }
+
+    // Insert into Supabase
+    const { data, error } = await supabase
+      .from('subscribers')
+      .insert([{ email, status: 'active' }])
+      .select();
+
+    if (error) {
+      if (error.code === '23505') { // Unique violation
+        return res.status(409).json({ success: false, error: "This email is already subscribed." });
+      }
+      throw error;
+    }
+
+    return res.status(200).json({ success: true, message: "Subscribed successfully!" });
+  } catch (error) {
+    console.error("Subscription Error:", error);
+    return res.status(500).json({ success: false, error: "Internal server error." });
+  }
+});
 
 // Export app for serverless function platforms like Vercel
 export default app;
