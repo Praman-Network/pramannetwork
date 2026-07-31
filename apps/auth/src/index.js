@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 });
 
 const allowedOrigins = [
-  'https://www.praman.network', 
+  'https://www.praman.network',
   'https://praman.network'
 ];
 
@@ -133,7 +133,7 @@ app.post("/api/v1/verify-zk", verifyApiKey, async (req, res) => {
 
   } catch (error) {
     console.error("Verification Route Error:", error);
-    
+
     // Log unexpected system errors
     try {
       await supabase.from('verification_logs').insert({
@@ -158,7 +158,7 @@ app.post("/api/v1/verify-zk", verifyApiKey, async (req, res) => {
 app.post("/api/v1/subscribe", async (req, res) => {
   try {
     const { email } = req.body;
-    
+
     if (!email) {
       return res.status(400).json({ success: false, error: "Email is required." });
     }
@@ -187,9 +187,9 @@ app.post("/api/v1/subscribe", async (req, res) => {
       try {
         const { Resend } = await import('resend');
         const resend = new Resend(process.env.RESEND_API_KEY);
-        
-        await resend.emails.send({
-          from: 'onboarding@resend.dev', // Default testing email (Change this to your verified domain later!)
+
+        const result = await resend.emails.send({
+          from: 'Praman Network <updates@praman.network>',
           to: email,
           subject: 'Welcome to the Praman Engineering Newsletter! 🚀',
           html: `
@@ -209,7 +209,12 @@ app.post("/api/v1/subscribe", async (req, res) => {
             </div>
           `
         });
-        console.log("Welcome email sent to", email);
+        console.log("Resend API response:", JSON.stringify(result));
+        if (result.error) {
+          console.error("Resend returned error:", result.error);
+        } else {
+          console.log("Welcome email sent to", email, "id:", result.data?.id);
+        }
       } catch (emailErr) {
         console.error("Failed to send welcome email:", emailErr);
         // We do not fail the request if the welcome email fails, as the user is still subscribed in DB
