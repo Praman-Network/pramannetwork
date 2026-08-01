@@ -88,7 +88,7 @@ export default function BentoGrid() {
   return (
     <section id="features" className="relative py-24 z-10 border-b border-gray-950 bg-[#06060c]/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Title / Header */}
         <motion.div
           initial={{ y: 20, opacity: 0 }}
@@ -100,7 +100,7 @@ export default function BentoGrid() {
           <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full border border-white/5 bg-black/40 text-[9px] tracking-widest uppercase font-semibold text-[#00F0FF] font-mono">
             Protocol Capabilities
           </div>
-          <h2 className="text-4xl sm:text-5xl font-display font-extrabold text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-white tracking-tight whitespace-nowrap">
             The Trust Engine of <span className="text-[#00F0FF] text-glow-cyan">Decentralized Logic</span>
           </h2>
           <p className="text-zinc-400 text-sm max-w-xl mx-auto font-light leading-relaxed">
@@ -110,7 +110,7 @@ export default function BentoGrid() {
 
         {/* Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[390px]">
-          
+
           {/* Card 1: Proof Engines (Double Width) */}
           <div className="md:col-span-2">
             <BentoCard
@@ -129,7 +129,7 @@ export default function BentoGrid() {
                   <div className="text-[#00F0FF] font-bold">GEN_GROTH16_PROOF</div>
                   <div>TIME: 362ms</div>
                 </div>
-                
+
                 {/* Connecting pipeline beam */}
                 <div className="flex items-center space-x-2 flex-grow mx-2 sm:mx-8 justify-center relative">
                   <div className="w-full h-[1px] bg-gradient-to-r from-[#00F0FF] via-purple-500 to-transparent relative">
