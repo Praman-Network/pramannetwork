@@ -53,20 +53,12 @@ export default function Navbar({ walletAddress, onConnectWallet, isConnecting }:
             <img 
               src="/logo.png" 
               alt="Praman Network Logo" 
-              width="40"
-              height="40"
+              width="144"
+              height="48"
               fetchPriority="high"
               decoding="async"
-              className="h-10 w-10 object-contain mix-blend-screen transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 filter drop-shadow-[0_0_8px_rgba(13,242,201,0.4)]"
+              className="h-12 w-auto object-contain mix-blend-screen transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 filter drop-shadow-[0_0_8px_rgba(13,242,201,0.4)]"
             />
-            <div className="flex flex-col">
-              <span className="font-display font-bold text-lg leading-tight tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-[#0DF2C9]">
-                PRAMAN
-              </span>
-              <span className="text-[10px] tracking-[0.25em] text-[#0DF2C9] font-medium uppercase font-display">
-                Network
-              </span>
-            </div>
           </Link>
 
           {/* Navigation Links */}
