@@ -30,7 +30,15 @@ export function NewsletterSection() {
     }
 
     try {
-      const API_URL = import.meta.env.VITE_AUTH_API_URL || 'http://localhost:5050';
+      let API_URL = import.meta.env.VITE_AUTH_API_URL;
+      if (!API_URL) {
+        const isLocal = typeof window !== 'undefined' && ['localhost', '127.0.0.1'].includes(window.location.hostname);
+        API_URL = isLocal ? 'http://localhost:5050' : '';
+      }
+      if (!API_URL) {
+        throw new Error('Newsletter service is not configured. Please contact support.');
+      }
+
       const response = await fetch(`${API_URL}/api/v1/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
