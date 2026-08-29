@@ -19,12 +19,12 @@ import {
   Loader2,
   Terminal,
   BarChart3,
-  ExternalLink
+  ExternalLink,
+  Scan
 } from 'lucide-react';
 import Navbar from '../components/Navbar.tsx';
 import { supabase } from '../utils/supabaseClient.ts';
 import { initPraman } from '@praman-network/sdk';
-
 // Initialize once, shared across this page
 const praman = initPraman({
   apiKey: import.meta.env.VITE_PRAMAN_API_KEY || 'pm_dev_your_api_key_here',
@@ -109,6 +109,25 @@ export default function Dashboard() {
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
     }, 3000);
+  };
+
+  const handlePramanAuthPopup = async () => {
+    try {
+      const result = await praman.loginWithPopup();
+      if (result && result.success) {
+        console.log("Praman Auth Success:", result);
+        const address = result.user?.did || (result.token && praman.verifyToken(result.token)?.payload?.sub);
+        if (address) {
+          setWalletAddress(address);
+          setWalletBalance("ZK Auth");
+          fetchAppsAndKeys(address);
+          showToast("Successfully logged in via Praman Auth!");
+        }
+      }
+    } catch (error: any) {
+      console.error("Praman Auth Error:", error);
+      showToast(error.message || "Authentication failed", "error");
+    }
   };
 
   // Auto-connect check on mount
@@ -690,14 +709,23 @@ export default function Dashboard() {
                 </button>
               </div>
             ) : (
-              <button
-                onClick={handleConnectWallet}
-                disabled={isConnecting}
-                className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-bold uppercase tracking-wider text-slate-200 hover:border-[#00F0FF]/50 hover:text-[#00F0FF] transition-all duration-300 font-display"
-              >
-                <Wallet className="h-4 w-4" />
-                <span>{isConnecting ? 'Connecting...' : 'Connect Wallet'}</span>
-              </button>
+              <div className="space-y-3">
+                <button
+                  onClick={handleConnectWallet}
+                  disabled={isConnecting}
+                  className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-zinc-900 border border-zinc-800 text-xs font-bold uppercase tracking-wider text-slate-200 hover:border-[#00F0FF]/50 hover:text-[#00F0FF] transition-all duration-300 font-display"
+                >
+                  <Wallet className="h-4 w-4" />
+                  <span>{isConnecting ? 'Connecting...' : 'Connect Wallet'}</span>
+                </button>
+                <button
+                  onClick={handlePramanAuthPopup}
+                  className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl border border-purple-500/30 text-xs font-bold uppercase tracking-wider text-purple-400 hover:bg-purple-500/10 transition-all duration-300 font-display shadow-[0_0_10px_rgba(168,85,247,0.1)]"
+                >
+                  <Scan className="h-4 w-4" />
+                  <span>Login with Praman Auth</span>
+                </button>
+              </div>
             )}
           </div>
         </aside>
@@ -797,15 +825,26 @@ export default function Dashboard() {
                   Please connect your Ethereum wallet to verify ownership, register client applications, and configure whitelist origins.
                 </p>
               </div>
-              <motion.button
-                whileHover={{ scale: 1.02, boxShadow: '0 0 15px rgba(245, 158, 11, 0.2)' }}
-                whileTap={{ scale: 0.98 }}
-                onClick={handleConnectWallet}
-                className="bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold px-6 py-3 rounded-xl text-xs uppercase tracking-wider flex items-center space-x-2 shrink-0 font-display transition-colors"
-              >
-                <Wallet className="h-4 w-4" />
-                <span>Connect Wallet</span>
-              </motion.button>
+              <div className="flex flex-col sm:flex-row gap-4 shrink-0">
+                <motion.button
+                  whileHover={{ scale: 1.02, boxShadow: '0 0 15px rgba(245, 158, 11, 0.2)' }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handleConnectWallet}
+                  className="bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold px-6 py-3 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center space-x-2 font-display transition-colors"
+                >
+                  <Wallet className="h-4 w-4" />
+                  <span>Connect Wallet</span>
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.02, boxShadow: '0 0 15px rgba(168, 85, 247, 0.3)' }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={handlePramanAuthPopup}
+                  className="bg-purple-600 hover:bg-purple-500 text-white font-bold px-6 py-3 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center space-x-2 font-display transition-colors"
+                >
+                  <Scan className="h-4 w-4" />
+                  <span>Praman Auth</span>
+                </motion.button>
+              </div>
             </motion.div>
           )}
 

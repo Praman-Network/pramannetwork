@@ -16,6 +16,9 @@ export default defineConfig({
   server: {
     port: 3000,
   },
+  define: {
+    global: 'window',
+  },
   build: {
     target: 'es2022',
     minify: 'esbuild',

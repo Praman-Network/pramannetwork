@@ -187,6 +187,8 @@ app.post("/api/v1/subscribe", async (req, res) => {
       try {
         const { Resend } = await import('resend');
         const resend = new Resend(process.env.RESEND_API_KEY);
+        console.log("resend env variable:", process.env.RESEND_API_KEY ? "present" : "missing");
+        console.log("Sending welcome email to:", email);
 
         const result = await resend.emails.send({
           from: 'Praman Network <updates@praman.network>',

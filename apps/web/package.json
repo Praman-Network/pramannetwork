@@ -13,6 +13,7 @@
     "@mdx-js/react": "^3.1.0",
     "@praman-network/sdk": "^0.1.10",
     "@supabase/supabase-js": "^2.110.8",
+    "@vladmandic/face-api": "^1.7.15",
     "clsx": "^2.1.1",
     "framer-motion": "^11.2.10",
     "lucide-react": "^0.395.0",
