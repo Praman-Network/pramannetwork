@@ -16,12 +16,24 @@ export const verifyApiKey = async (req, res, next) => {
   }
 
   try {
-    // Query Supabase using service role credentials to check the key status
     const { data: keyData, error } = await supabase
       .from('api_keys')
-      .select('allowed_origins, is_active')
+      .select('id, allowed_origins, is_active')
       .eq('key_value', apiKey)
       .single();
+
+    if (!error && keyData) {
+      // Find the integer app_id for this client
+      const { data: appData } = await supabase
+        .from('developer_apps')
+        .select('id')
+        .eq('client_id', keyData.id)
+        .single();
+      
+      if (appData) {
+        req.appId = appData.id;
+      }
+    }
 
     // Check if key exists and is active
     if (error || !keyData || !keyData.is_active) {

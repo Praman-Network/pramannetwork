@@ -96,7 +96,7 @@ app.post("/api/v1/verify-zk", verifyApiKey, async (req, res) => {
       // Log failed attempt
       try {
         await supabase.from('verification_logs').insert({
-          app_id: apiKey,
+          app_id: req.appId || apiKey,
           status: 'failed',
           error_code: 'ZK_VERIFICATION_FAILED',
           origin: origin
@@ -110,7 +110,7 @@ app.post("/api/v1/verify-zk", verifyApiKey, async (req, res) => {
     // 2. Success Log Entry
     try {
       await supabase.from('verification_logs').insert({
-        app_id: apiKey,
+        app_id: req.appId || apiKey,
         status: 'success',
         error_code: null,
         origin: origin
@@ -137,7 +137,7 @@ app.post("/api/v1/verify-zk", verifyApiKey, async (req, res) => {
     // Log unexpected system errors
     try {
       await supabase.from('verification_logs').insert({
-        app_id: apiKey,
+        app_id: req.appId || apiKey,
         status: 'failed',
         error_code: 'SYSTEM_ERROR',
         origin: origin

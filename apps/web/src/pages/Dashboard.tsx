@@ -29,7 +29,7 @@ import { initPraman } from '@praman-network/sdk';
 const praman = initPraman({
   apiKey: import.meta.env.VITE_PRAMAN_API_KEY || 'pm_dev_your_api_key_here',
   network: 'polygon-amoy',
-  idpUrl: 'https://auth.praman.network/',
+  idpUrl: 'https://auth.praman.network',
   backendUrl: 'https://api.praman.network'
 });
 import SEO from '../components/SEO.tsx';
@@ -275,8 +275,8 @@ export default function Dashboard() {
       if (logsError) throw logsError;
 
       if (!logs || logs.length === 0) {
-        setLogsData(generateMockLogsForChart(appId));
-        setFailedLogsData(generateMockFailedLogs(appId));
+        setLogsData([]);
+        setFailedLogsData([]);
       } else {
         // Group by day for charts
         const chartDataMap: Record<string, { verifications: number; failures: number }> = {};
@@ -306,9 +306,9 @@ export default function Dashboard() {
         setFailedLogsData(failed);
       }
     } catch (err) {
-      console.warn("Failed to fetch from verification_logs, using premium mock fallback:", err);
-      setLogsData(generateMockLogsForChart(appId));
-      setFailedLogsData(generateMockFailedLogs(appId));
+      console.error("Failed to fetch from verification_logs:", err);
+      setLogsData([]);
+      setFailedLogsData([]);
     } finally {
       setIsLogsLoading(false);
     }
