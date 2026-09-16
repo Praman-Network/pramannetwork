@@ -113,7 +113,9 @@ export default function Dashboard() {
 
   const handlePramanAuthPopup = async () => {
     try {
-      const result = await praman.loginWithPopup();
+      const result = await praman.loginWithPopup({
+        scopes: ['email', 'profile']
+      });
       if (result && result.success) {
         console.log("Praman Auth Success:", result);
         const address = result.user?.did || (result.token && praman.verifyToken(result.token)?.payload?.sub);
